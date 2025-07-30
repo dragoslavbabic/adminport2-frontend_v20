@@ -1,0 +1,106 @@
+@if (user) {
+  <mat-card class="ldap-card-grid">
+    <div class="ldap-card-header">
+      <div class="user-icon">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <div class="ldap-card-title">
+        <div class="full-name">{{ user.ldapFullName }}</div>
+        <div class="username">{{ user.ldapUsername + '@uns.ac.rs' }}</div>
+      </div>
+    </div>
+    <div class="ldap-grid">
+      <!-- Leva kolona -->
+      <div class="ldap-col">
+        <div class="ldap-label">Alijasi:</div>
+        <div class="ldap-value">
+          @if ((user.ldapUnsAltUid | altUidFilter).length) {
+            <ul style="margin:0; padding-left:16px">
+              @for (alt of user.ldapUnsAltUid | altUidFilter; track $index) {
+                <li>{{ alt }}</li>
+              }
+            </ul>
+          } @else {
+            <span>-</span>
+          }
+        </div>
+        <div class="ldap-label">Lozinka važi do: </div>
+        <div class="ldap-value">{{ user.ldapRadiusExpiration | date: 'dd. MMM yyyy' }}</div>
+        <!-- "Koristio/la servis:" -->
+        <div class="ldap-label">WebMail: </div>
+        <div class="ldap-value">Koristio/la servis:
+          @if (spammerInfo()) {
+              <span>{{ (spammerInfo()?.Aktivan | aktivanInfo).text }}</span>
+          } @else {
+            <span>—</span>
+          }
+        </div>
+
+        <!-- "Spammer:" -->
+        <div class="ldap-value">Spammer:
+          @if (spammerInfo()) {
+      <span [ngClass]="(spammerInfo()?.spammer | spammerInfo).textClass">
+        {{ (spammerInfo()?.spammer | spammerInfo).text }}
+      </span>
+        } @else {
+         <span>—</span>
+          }
+        </div>
+      </div>
+
+      <!-- Srednja kolona -->
+      <div class="ldap-col">
+        <div class="ldap-label">Institucija: </div>
+        <div class="ldap-value">{{ institution() || '-' }}</div>
+
+        <div class="ldap-label">Mail host: </div>
+        <div class="ldap-value">
+          {{ user.ldapMailHost || '-' }}
+          <span class="mailhost-indicator"  [ngStyle]="{'color': (user.ldapMailHost | mailHostStatus)?.color}">●</span>
+        </div>
+
+        <div class="ldap-label">Home dir: </div>
+        <div class="ldap-value">
+          {{ user.ldapHomeDirectory || '-' }}
+          <span
+            class="homedir-indicator"
+            [ngStyle]="{'color': (user.ldapHomeDirectory | homeDirStatus:user.ldapUsername).color}"
+            [matTooltip]="(user.ldapHomeDirectory | homeDirStatus:user.ldapUsername).tooltip"
+            style="font-size:1.2em; margin-left:6px;">●</span>
+        </div>
+<!--
+          {{ user.ldapHomeDirectory || '-' }}</div>
+-->
+
+        <div class="ldap-label">Blokiran:</div>
+        <div class="ldap-value">{{ user.ldapShadowExpire > 0 ? 'DA' : 'NE' }}</div>
+
+        <div class="ldap-label">Kreiran:</div>
+        <div class="ldap-value">{{ user.ldapCreateTimestamp | date: 'dd.MM.yyyy' }}</div>
+
+      </div>
+
+      <!-- Desna kolona (servisi) -->
+      <div class="ldap-col">
+        <div class="ldap-label">Servisi:</div>
+        <div class="ldap-value">
+        @if (user.ldapUnsService.length) {
+          <ul style="margin:0; padding-left:16px">
+            @for (service of user.ldapUnsService; track service) {
+              <li>{{ service }}</li>
+            }
+          </ul>
+        } @else {
+          <span style="color:#aaa;">Nema servisa</span>
+        }
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+
+
+
+} @else {
+  <div class="ldap-card-empty">Nema podataka za prikaz.</div>
+}

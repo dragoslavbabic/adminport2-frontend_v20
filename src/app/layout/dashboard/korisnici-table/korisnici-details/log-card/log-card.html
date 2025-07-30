@@ -1,0 +1,34 @@
+<mat-card-content>
+  <mat-tab-group>
+    <mat-tab label="Radius Logs" style="overflow-y: scroll">
+              <span>
+
+              </span></mat-tab>
+  </mat-tab-group>
+</mat-card-content>
+
+<div class="card p-3 mb-3 log-card">
+  <button class="btn btn-primary mb-3" (click)="loadLogs()" [disabled]="loading()">
+    Prikaži Radius logove
+  </button>
+
+  @if (loading()) {
+    <div class="mb-2">
+      <span class="spinner-border spinner-border-sm"></span> Učitavanje...
+    </div>
+  }
+
+  @if (error()) {
+    <div>{{ error() }}</div>
+  }
+
+  @if (logs() && logs()!.length) {
+    <div class="log-list-scrollable">
+      @for (log of logs(); track log.id) {
+        <div  class="log-text">{{ formatLog(log) }}</div>
+      }
+    </div>
+  } @else if (logs() && !logs()!.length && !loading() && !error()) {
+    <div>Nema podataka.</div>
+  }
+</div>

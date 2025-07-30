@@ -1,0 +1,143 @@
+<div class="table-scroll-container">
+<mat-card>  <table mat-table [dataSource]="users()" class="mat-elevation-z3 custom-table">
+
+    <!-- Redni broj -->
+    <ng-container matColumnDef="num">
+      <th mat-header-cell *matHeaderCellDef> Num. </th>
+      <td mat-cell *matCellDef="let user; let i = index"> {{ i + 1 }} </td>
+    </ng-container>
+
+    <!-- Korisnik (ostaje sve kao kod tebe)... -->
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef> Korisnik </th>
+      <td mat-cell *matCellDef="let user">
+        <span class="username-cell"
+              [ngClass]="user.studRegUsername | studregKorisnikClass">
+          <button mat-icon-button
+                  (click)="copyUsername(user.username, $event)"
+                  matTooltip="Kopiraj korisničko ime">
+            <mat-icon style="margin-left: 2px; font-size: 0.7em;">content_copy</mat-icon>
+          </button>
+          {{ user.username }}
+          @let altUids = user.ldap?.ldapUnsAltUid | altUidFilter;
+          @if (altUids.length) {
+            <mat-icon
+              matTooltip="Alt UID: {{ altUids.join(', ') }}"
+              color="primary"
+              style="vertical-align: middle; margin-left: 4px; font-size: 1.5em;">
+              brightness_auto
+            </mat-icon>
+          }
+        </span>
+      </td>
+    </ng-container>
+
+  <!-- Ime i prezime -->
+  <ng-container matColumnDef="fullName">
+    <th mat-header-cell *matHeaderCellDef> Ime i prezime </th>
+    <td mat-cell *matCellDef="let user"> {{ user.fullName }} </td>
+  </ng-container>
+
+  <!-- Nalog aktivan do -->
+  <ng-container matColumnDef="activeTo">
+    <th mat-header-cell *matHeaderCellDef> Nalog aktivan do: </th>
+    <td mat-cell *matCellDef="let user">
+      <div class="cell-flex">
+      <span [ngClass]="user.activeTo | badgeColor" class="my-badge myspan">
+        {{ user.activeTo | date: 'dd. MMM yyyy' }}
+      </span>
+        @if (!user.studRegUsername) {
+                @if (user | userWarning) {
+                    <mat-icon style="color: red;font-size: 24px;"
+                    matTooltip="{{ user.ldap.ldapMailHost }}">error_outline</mat-icon>
+                @if (user.ldap.ldapMailHost !== 'cola.arm.uns.ac.rs') {
+                    <mat-icon style="color: red; margin-left:2px;font-size: 20px"
+                    matTooltip="{{ user.ldap.ldapMailHost }}">mail</mat-icon>
+          }
+        } @else {
+          <button
+            mat-icon-button
+            (click)="accountAction(user, 'extend', $event)"
+            [disabled]="actionLoading[user.username]"
+            [matTooltip]="isExpired(user.activeTo) ? 'Nalog je istekao — produži!' : 'Produži nalog'"
+            [color]="isExpired(user.activeTo) ? 'warn' : 'primary'"
+            style="margin-left: 8px;"
+          >
+            <mat-icon>refresh</mat-icon>
+          </button>
+         }
+        }
+      </div>
+    </td>
+  </ng-container>
+
+  <!-- Broj indeksa -->
+  <ng-container matColumnDef="index">
+    <th mat-header-cell *matHeaderCellDef> Broj indeksa </th>
+    <td mat-cell *matCellDef="let user"> {{ user.index }} </td>
+  </ng-container>
+
+  <!-- Institucija -->
+  <ng-container matColumnDef="institution">
+    <th mat-header-cell *matHeaderCellDef> Institucija </th>
+    <td mat-cell *matCellDef="let user"> {{ user.institution }} </td>
+  </ng-container>
+
+  <!-- Status naloga -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status naloga </th>
+    <td mat-cell *matCellDef="let user">
+      <div class="cell-flex">
+        <span [ngClass]="user.shadowExpire | statusBadge:user.studRegUsername" class="my-badge myspan">
+          {{ user.shadowExpire | userStatusText:user.studRegUsername }}
+          {{ user.studregUserName }}
+        </span>
+        @if (!(user | userWarning)) {
+          @if (user.shadowExpire !== 0) {
+        <button mat-icon-button
+          (click)="accountAction(user, 'block_unblock', $event)"
+          [disabled]="actionLoading[user.username]"
+          [matTooltip]="user.blocked ? 'Odblokiraj korisnika' : 'Blokiraj korisnika'"
+          [color]="user.blocked ? 'primary' : 'warn'"
+        >
+          @if (user.blocked) { <mat-icon>lock_open</mat-icon> }
+          @else { <mat-icon>block</mat-icon> }
+        </button>}
+        }
+      </div>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="blocked_date">
+    <th mat-header-cell *matHeaderCellDef> Blokiran od: </th>
+    <td mat-cell *matCellDef="let user">
+      <div class="cell-flex">
+        @if(user.shadowExpire > 1) {
+        <span  class="badge myspan">
+        {{user.shadowExpire * 86400 * 1000 | date: 'dd. MMM yyyy'}}
+        </span>
+        }
+      </div>
+    </td>
+  </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let user; columns: displayedColumns;" (click)="onRowClick(user)"></tr>
+  </table>
+</mat-card>
+</div>
+
+<!-- OVDE IDE SPINNER ili PORUKA -->
+@if (searchInProgress()) {
+  <div class="table-overlay">
+    <mat-spinner diameter="36"></mat-spinner>
+  </div>
+} @else if (!searchInProgress() && searched() && users().length === 0) {
+  <div class="table-overlay">
+    <div class="table-no-data-msg">
+      Korisnik nije pronađen.
+    </div>
+  </div>
+}
+
+

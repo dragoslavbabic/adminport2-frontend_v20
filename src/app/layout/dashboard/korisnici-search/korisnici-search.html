@@ -1,0 +1,14 @@
+<form [formGroup]="searchBox" (ngSubmit)="onSearch()" class="search-form">
+  <mat-form-field appearance="outline" class="search-input">
+    <mat-label>Pretraga *</mat-label>
+    <input matInput formControlName="searchBox" (keyup.enter)="onSearch()" />
+  </mat-form-field>
+  <button mat-icon-button color="primary" type="submit">
+    <mat-icon>search</mat-icon>
+  </button>
+  @if (invalidInput) {
+    <div style="color: #c00; font-size: 0.95em; margin-top: 2px;">
+      Unesite bar 3 znaka!
+    </div>
+  }
+</form>

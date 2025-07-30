@@ -1,0 +1,38 @@
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  background: #fff;
+}
+.log-table th, .log-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+}
+.log-table th {
+  text-align: left;
+  color: #555;
+  font-weight: normal;
+}
+.log-card-empty {
+  color: #888;
+  padding: 24px;
+  text-align: center;
+}
+
+.log-margin {
+  margin-top: 16px;
+}
+
+.log-text {
+  font-family: monospace !important;
+  font-size: 11px;
+}
+
+.log-list-scrollable {
+  max-height: 250px;   /* ili koliko ti odgovara */
+  overflow-y: auto;
+  padding-right: 4px;  /* mali padding za scrollbar */
+  border: 1px solid #eee;   /* opcionalno, radi izgleda */
+  background: #fafbfc;      /* uklopi s karticom */
+  font-size: 0.96em;
+}

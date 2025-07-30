@@ -1,0 +1,33 @@
+html, body, .main-layout, .sidenav-container, mat-sidenav-content {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden; /* bitno */
+}
+
+.sidenav-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 230px;
+  min-width: 180px;
+  max-width: 280px;
+  background: #213959;
+}
+
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden; /* NE dozvoli globalni scroll! */
+}
+
+app-top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 2px 8px #0002;
+  padding: 0 16px;
+}

@@ -1,0 +1,111 @@
+<div class="wiki-gen-cards" >
+  <!-- Sednica -->
+
+  <mat-card class="wikiCards">
+    <div>
+    <mat-card-subtitle>Odaberi sednicu:</mat-card-subtitle>
+    <mat-card-content>
+      <mat-button-toggle-group [hideSingleSelectionIndicator]=true class="myToggle" [(ngModel)]="sednicaType">
+        <mat-button-toggle *ngFor="let s of sednice" [value]="s.value">{{ s.label }}</mat-button-toggle>
+      </mat-button-toggle-group>
+<!--      <span style="margin-left: 8px;">{{ sednicaType }}</span>-->
+    </mat-card-content>
+    </div>
+    <div>
+    <mat-card-subtitle>Odaberi tip sednice:</mat-card-subtitle>
+    <mat-card-content>
+      <mat-button-toggle-group class="myToggle" [hideSingleSelectionIndicator]=true [(ngModel)]="tipSednice">
+        <mat-button-toggle value="Redovna">Redovna</mat-button-toggle>
+        <mat-button-toggle value="Vanredna">Vanredna</mat-button-toggle>
+      </mat-button-toggle-group>
+    </mat-card-content>
+    </div>
+    <div>
+    <mat-card-subtitle>Datum održavanja sednice:</mat-card-subtitle>
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="myToggle">
+        <input matInput [matDatepicker]="picker" (click) ="picker.open()" placeholder="Izaberi datum" [(ngModel)]="datum">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-card-content>
+    </div>
+    <div>
+    <mat-card-subtitle>Broj sednice:</mat-card-subtitle>
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <input matInput  placeholder="Unesi broj sednice" type="number" [(ngModel)]="brojSednice">
+      </mat-form-field>
+    </mat-card-content>
+    </div>
+    <mat-card-subtitle>Odaberi PDF fajl:</mat-card-subtitle>
+    <mat-card-content>
+      <mat-form-field appearance="outline" density="compact" >
+        <input type="file" (change)="onPdfSelected($event)" accept="application/pdf" hidden #pdfInput>
+        <input matInput [value]="pdfNaziv" placeholder="Odaberi PDF fajl" readonly (click)="pdfInput.click()">
+        <button mat-icon-button matSuffix (click)="pdfInput.click()" tabindex="-1">
+          <mat-icon>folder_open</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field appearance="outline" density="compact">
+        <input matInput>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+ <!-- &lt;!&ndash; Tip sednice &ndash;&gt;
+  <mat-card class="wikiCards">
+    <mat-card-subtitle>Odaberi tip sednice:</mat-card-subtitle>
+    <mat-card-content>
+      <mat-button-toggle-group class="myToggle" [hideSingleSelectionIndicator]=true [(ngModel)]="tipSednice">
+        <mat-button-toggle value="Redovna">Redovna</mat-button-toggle>
+        <mat-button-toggle value="Vanredna">Vanredna</mat-button-toggle>
+      </mat-button-toggle-group>
+    </mat-card-content>
+  </mat-card>
+
+  &lt;!&ndash; Datum &ndash;&gt;
+  <mat-card class="wikiCards">
+    <mat-card-subtitle>Datum održavanja sednice:</mat-card-subtitle>
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="myToggle">
+        <input matInput [matDatepicker]="picker" (click) ="picker.open()" placeholder="Izaberi datum" [(ngModel)]="datum">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  &lt;!&ndash; Broj sednice &ndash;&gt;
+  <mat-card class="wikiCards">
+    <mat-card-subtitle>Broj sednice:</mat-card-subtitle>
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <input matInput  placeholder="Unesi broj sednice" type="number" [(ngModel)]="brojSednice">
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  &lt;!&ndash; PDF fajl &ndash;&gt;
+  <mat-card class="wikiCards">
+    <mat-card-subtitle>Odaberi PDF fajl:</mat-card-subtitle>
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <input type="file" (change)="onPdfSelected($event)" accept="application/pdf" hidden #pdfInput>
+        <input matInput [value]="pdfNaziv" placeholder="Odaberi PDF fajl" readonly (click)="pdfInput.click()">
+        <button mat-icon-button matSuffix (click)="pdfInput.click()" tabindex="-1">
+          <mat-icon>folder_open</mat-icon>
+        </button>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  &lt;!&ndash; Wiki akcija &ndash;&gt;
+  <mat-card class="wikiCards">
+    <mat-card-subtitle>Generiši WIKI kod!</mat-card-subtitle>
+    <mat-card-content>
+      <button mat-raised-button color="primary" (click)="generisiWiki()">Čitaj</button>
+    </mat-card-content>
+  </mat-card>-->
+</div>
+

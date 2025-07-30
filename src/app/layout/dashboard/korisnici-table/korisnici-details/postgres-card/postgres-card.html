@@ -1,0 +1,87 @@
+
+<mat-card class="postgres-card-grid">
+  <div class="postgres-card-header">
+    <div class="user-icon">
+      <mat-icon>account_circle</mat-icon>
+    </div>
+    <div class="postgres-card-title">
+      <div class="full-name">{{ fullname() }}</div>
+      <div class="username">{{ username() }}</div>
+    </div>
+      <div class="form-actions">
+
+      @if (!editMode()) {
+        <span class="btn-izmeni"><button type="button" class="btn btn-success btn-izmeni"(click)="startEdit()">
+          <!--<mat-icon>edit</mat-icon>--> Izmeni
+        </button></span>
+      }
+      @else {
+        <button mat-button color="basic" type="submit" [attr.form]="'korisnikForm'" [disabled]="!form().valid">
+          <mat-icon>save</mat-icon> Sačuvaj
+        </button>
+        <button mat-button type="button" (click)="cancelEdit()">
+          <mat-icon>close</mat-icon> Otkaži
+        </button>
+      }
+      </div>
+    </div>
+
+  <form [formGroup]="form()" (ngSubmit)="submit()" id="korisnikForm">
+    <div class="pg-form-grid">
+      <!-- Kolona 1 -->
+      <div>
+        <div class="form-col">
+          <label>Username:</label>
+          <input matInput formControlName="rawPgUsername" readonly/>
+        </div>
+        <div class="form-col">
+          <label>Ime:</label>
+          <input matInput formControlName="rawPgIme" />
+        </div>
+        <div class="form-col">
+          <label>Prezime:</label>
+          <input matInput formControlName="rawPgPrezime" [disabled]="true" />
+        </div>
+        <div class="form-col">
+          <label>Adresa:</label>
+          <input matInput formControlName="rawPgAdresa" />
+        </div>
+        <div class="form-col">
+          <label>Telefon:</label>
+          <input matInput formControlName="rawPgTelefon" />
+        </div>
+      </div>
+      <!-- Kolona 2 -->
+      <div>
+        <div class="form-col">
+          <label>Indeks:</label>
+          <input matInput formControlName="rawPgIndeks" />
+        </div>
+        <div class="form-col">
+          <label>Institucija:</label>
+          <mat-select class="mySelect" formControlName="rawPgInstitucija" [compareWith]="compareById" [disabled]="true">
+            @for (inst of institucije(); track inst.id) {
+              <mat-option [value]="inst">
+                {{ inst.naziv }}
+              </mat-option>
+            }
+          </mat-select>
+        </div>
+        <div class="form-col">
+          <label>Status:</label>
+          <mat-select class="mySelect" formControlName="rawPgStatus" [compareWith]="compareById">
+            @for (s of statusi(); track s.id) {
+              <mat-option [value]="s">
+                {{ s.naziv }}
+              </mat-option>
+            }
+          </mat-select>
+        </div>
+        <div class="form-col">
+          <label>Komentar:</label>
+          <input matInput formControlName="rawPgKomentar" />
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card>

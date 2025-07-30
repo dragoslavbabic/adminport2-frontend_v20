@@ -1,0 +1,18 @@
+<!-- main-layout.html -->
+<div class="main-layout">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer mode="side" opened>
+      <app-sidebar />
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <app-top-bar />
+      <div class="main-content-scrollable">
+        <!-- Sve unutar ovoga se skroluje -->
+        <mat-card-header><h2>Neki title</h2></mat-card-header>
+        <mat-card>
+          <router-outlet></router-outlet>
+        </mat-card>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

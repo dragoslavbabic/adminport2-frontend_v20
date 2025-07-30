@@ -1,0 +1,103 @@
+.ldap-card-grid {
+  font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+  padding: 10px 10px 1px 20px;
+  margin: 0;
+}
+
+.ldap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.ldap-card-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 20px;
+  padding-bottom: 3px;
+  border-bottom: #a1a1a1 solid 1px;
+}
+
+.ldap-card-title .full-name {
+  font-weight: 600;
+  font-size: 1.25em;
+}
+
+.ldap-card-title .username {
+  font-size: 0.97em;
+  color: #666;
+}
+
+.ldap-label {
+  color: #646464;
+
+  font-size: 0.87em;
+  font-weight: 600;
+}
+
+.ldap-value {
+  color: #000000;
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 1px;
+  margin-bottom: 7px;
+}
+
+.ldap-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 1em;
+}
+
+.ldap-username {
+  color: #5976cf;
+  font-weight: 500;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.ldap-services {
+  border-left: 1px solid #e2e6ee;
+  padding-left: 18px;
+  min-width: 110px;
+}
+
+.services-title {
+  font-size: 1.07em;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #375599;
+}
+
+.badge {
+  padding: 0.2em 0.7em;
+  border-radius: 16px;
+  font-size: 0.98em;
+  display: inline-block;
+  margin-left: 2px;
+}
+.badge-border-green { border: #04b604 2px solid; }
+.badge-border-red   { border: red 2px solid; }
+
+.text-success { color: #18b800; }
+.text-danger  { color: #d40000; }
+.warn         { color: #f5b301; vertical-align: middle;}
+.ok           { color: #18b800; vertical-align: middle;}
+
+@media (max-width: 900px) {
+  .ldap-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .ldap-services { border-left: none; padding-left: 0; }
+}
+
+.mailhost-indicator {
+  font-size: 1.1em;
+  margin-left: 4px;
+  /* možeš još dodati stilova po potrebi */
+}
+

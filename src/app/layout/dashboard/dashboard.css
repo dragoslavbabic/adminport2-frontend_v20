@@ -1,0 +1,116 @@
+.dashboard-fixed-root {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  overflow: hidden;
+  background: #fcfcfc;
+}
+
+.dashboard-fixed-content {
+  height: 100vh;
+  background: #fcfcfc;
+  padding: 26px 40px 28px 26px;
+  box-sizing: border-box;
+  /* Kada je panel otvoren, tabela se "stisne" */
+  transition: margin-right 0.22s cubic-bezier(.77,0,.18,1);
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-top-bar {
+  align-items: flex-end;      /* ili center, probaj šta bolje izgleda */
+  flex-wrap: wrap;           /* ako je usko, prelomiće ispod */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: #ffffff; /* ili tvoja boja pozadine */
+  padding-bottom: 12px;
+  margin-bottom: 0;
+}
+
+.dashboard-table-scroll {
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: calc(100vh - 104px); /* prilagodi prema visini top bar-a */
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px #0001;
+  padding-bottom: 2px; /* za vizuelni razmak na dnu */
+}
+
+.dashboard-table-viewport {
+  flex: 1 1 0;
+  min-height: 0;
+  /* Smanji ovu vrednost ako imaš gornji padding! */
+  max-height: calc(100vh - 80px); /* prilagodi prema visini top bar-a/paddinga */
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px #0001;
+  padding-bottom: 2px;
+}
+
+table.mat-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+tr.mat-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background: #f8fbff !important;
+  box-shadow: 0 2px 4px #0001;
+}
+
+@media (min-width: 800px) {
+  .dashboard-fixed-content {
+    margin-right: 0;
+  }
+  .dashboard-fixed-root.panel-open .dashboard-fixed-content {
+    margin-right: 448px; /* širina panel + razmak */
+  }
+}
+
+/* FIXED PANEL */
+.fixed-details-panel {
+  position: fixed;
+  top: 100px;
+  right: 0;
+  width: 50vw;
+  max-width: 98vw;
+  height: 73vh;
+  background: #f8fbff;
+  box-shadow: -2px 0 18px #0002;
+  border-radius: 2px 0 0 2px;
+  z-index: 1060;
+  padding: 32px 18px 40px 20px;
+  overflow-y: auto;
+  transition: transform 0.24s cubic-bezier(.8,0,.13,1);
+  /* slide-in animacija */
+  transform: translateX(0);
+}
+
+.panel-overlay {
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: rgba(45,55,70,0.10);
+  z-index: 1055;
+}
+
+/* Responsive za male ekrane */
+@media (max-width: 700px) {
+  .fixed-details-panel {
+    width: 100vw;
+    border-radius: 0;
+    padding: 14px 8px;
+  }
+  .dashboard-fixed-content {
+    padding-right: 0;
+  }
+}

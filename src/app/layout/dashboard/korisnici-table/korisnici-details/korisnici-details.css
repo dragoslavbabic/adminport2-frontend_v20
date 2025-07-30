@@ -1,0 +1,77 @@
+.user-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px 20px 10px;
+  background: transparent;
+  border-radius: 10px 10px 0 0;
+
+/*  box-shadow: 0 2px 8px #0001;
+  margin-bottom: 8px;*/
+}
+
+.my-card-header {
+  background: #ffffff;
+}
+
+.tab-header {
+  background: #31588f;
+  color: #ffffff;
+}
+
+.user-avatar {
+  background: #3085ff;
+  color: #fff;
+  width: 64px;
+  height: 64px;
+  font-size: 2.1em;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  margin-right: 22px;
+  box-shadow: 0 0 2px #9994;
+}
+
+.user-info {
+  flex: 1 1 auto;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 1.3em;
+}
+
+.user-username {
+  font-size: 1em;
+  color: #888;
+}
+
+.user-status {
+  margin-top: 6px;
+}
+
+.status-good {
+  color: #15b700;
+  font-weight: bold;
+  padding: 2px 12px;
+  background: #e4ffe9;
+  border-radius: 8px;
+  font-size: 0.93em;
+}
+
+.status-bad {
+  color: #db1313;
+  font-weight: bold;
+  padding: 2px 12px;
+  background: #fff0f1;
+  border-radius: 8px;
+  font-size: 0.93em;
+}
+
+.user-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-left: 18px;
+}

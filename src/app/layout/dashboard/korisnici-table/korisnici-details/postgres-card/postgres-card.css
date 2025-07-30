@@ -1,0 +1,138 @@
+/*.postgres-card-grid {
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  background: #fafbfc;
+  border-radius: 7px;
+}*/
+
+.postgres-card-grid {
+  /*
+  font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+  */
+  padding: 10px 10px 1px 20px;
+  margin: 0;
+  background: #fafbfc;
+
+}
+
+.postgres-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 50px;
+  align-items: flex-start;
+}
+
+.postgres-card-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 20px;
+  padding-bottom: 3px;
+  border-bottom: #a1a1a1 solid 1px;
+}
+
+.btn-izmeni {
+  color: #ffffff;
+  background: #31588f;
+}
+
+.postgres-card-title .full-name {
+  font-weight: 600;
+  font-size: 1.25em;
+}
+
+
+.form-row {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+.form-col {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding-bottom: 10px;
+  margin-right: 20px;
+}
+
+label {
+  font-size: 100%;
+  color: #444;
+  margin-bottom: 4px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+input[matInput], mat-select {
+  background: #e5f7ff;
+  border: none;
+  border-bottom: 1px dotted #bbb !important;
+  font-size: 100%;
+  padding: 5px 2px 4px 0;
+  margin-bottom: 2px;
+  box-shadow: none !important;
+  border-radius: 0;
+  width: 90%;
+}
+
+.mySelect {
+  background-color: transparent;
+}
+
+.mdc-list-item {
+  font-size: 100% !important;
+}
+
+input[matInput][disabled] {
+  color: #9d4a4a !important;
+  font-weight: 700;/* crveno kad je disabled */
+  opacity: 1 !important;      /* da ne bude izbledelo */
+  background: #fafbfc !important;  /* ili šta god da ti je background */
+  -webkit-text-fill-color: #244b67 !important; /* za Webkit browsere */
+}
+
+/* Za Angular 20+ i MDC bazirani mat-select */
+::ng-deep .mat-mdc-select-disabled .mat-mdc-select-value-text {
+  -webkit-text-fill-color: #244b67 !important; /* radi na Chrome, Edge, Safari, Firefox 113+ */
+  color: #244b67 !important;
+  opacity: 1 !important;
+  font-weight: bold;
+}
+
+.form-actions {
+  margin-top: 18px;
+  text-align: right;
+}
+
+.pg-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.form-actions {
+  grid-column: span 2;
+  margin-top: 16px;
+  text-align: right;
+}
+mat-form-field {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.snackbar-success {
+  background: #2fd15a !important;
+  color: #fff !important;
+}
+
+.snackbar-error {
+  background: #e44 !important;
+  color: #fff !important;
+}
+
+.mat-mdc-fab {
+  background-color: #ffffff;
+  color: #565656;
+}
