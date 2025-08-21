@@ -53,7 +53,7 @@ export class KorisniciTable {
 
   onRowClick(user: User) {
     this.rowClicked.emit(user);
-    console.log('STUDREG ' + user.studRegUsername);
+    //console.log('STUDREG ' + user.studRegUsername);
   }
 
   accountAction(user: User, action: UIAction, event?: MouseEvent): void {
@@ -72,7 +72,7 @@ export class KorisniciTable {
     this.korisniciService.sshAccountAction(user.username, backendAction).subscribe({
 
       next: (res) => {
-        console.log('STUDREG ' + user.studRegUsername);
+        //console.log('STUDREG ' + user.studRegUsername);
         user.activeTo = res['Password Expires'];
 
         if (res['Account Expires'] === 'Never') {
@@ -80,7 +80,7 @@ export class KorisniciTable {
         } else {
           const expireDate = new Date(res['Account Expires']);
           user.shadowExpire = Math.floor(expireDate.getTime() / 1000 / 86400);
-          console.log('traba nam datum: ' + user.shadowExpire);
+          //console.log('traba nam datum: ' + user.shadowExpire);
         }
         // Dodaj i ovu liniju (ako koristiš user.blocked za prikaz badge-a!):
         user.blocked = !!user.shadowExpire && user.shadowExpire > 0;

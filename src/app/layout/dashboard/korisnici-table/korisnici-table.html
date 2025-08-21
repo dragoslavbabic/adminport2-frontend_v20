@@ -44,7 +44,7 @@
     <td mat-cell *matCellDef="let user">
       <div class="cell-flex">
       <span [ngClass]="user.activeTo | badgeColor" class="my-badge myspan">
-        {{ user.activeTo | date: 'dd. MMM yyyy' }}
+        {{ user.activeTo | date: 'dd. MMM yyyy' : 'sr' }}
       </span>
         @if (!user.studRegUsername) {
                 @if (user | userWarning) {

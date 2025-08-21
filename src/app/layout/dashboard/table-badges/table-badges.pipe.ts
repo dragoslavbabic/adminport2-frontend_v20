@@ -93,7 +93,7 @@ export class UserWarningPipe implements PipeTransform {
   transform(user: { ldap: LdapUser; postgres: PostgresUser }): boolean {
     return (
       user.ldap.ldapUnsService?.includes('norefresh') ||
-      !!user.postgres.studregUserName ||
+      !!user.ldap.studregUserName ||
       user.ldap.noShadowLastChange ||
       user.ldap.ldapMailHost !== 'cola.arm.uns.ac.rs'
     );

@@ -14,14 +14,9 @@ import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.html',
-  styleUrls: ['./login.css'],
+  styleUrls: ['./login.css', './login.scss'],
   imports: [
-    MatCard,
-    MatButton,
-    MatInput,
     ReactiveFormsModule,
-    MatLabel,
-    MatFormField,
     MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule,
   ]
 })
@@ -42,7 +37,7 @@ export class Login {
       const { username, password } = this.loginForm.value;
       this.auth.login(username ?? '', password ?? '').subscribe(success => {
         if (success) {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/korisnici']);
         } else {
           this.errorMsg = 'Pogrešan username ili password!';
         }

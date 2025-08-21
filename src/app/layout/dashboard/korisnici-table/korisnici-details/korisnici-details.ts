@@ -1,4 +1,4 @@
-import {Component, effect, Input, signal} from '@angular/core';
+import {Component, effect, EventEmitter, Input, Output, signal} from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { User } from '../../models/user.model'; // prilagodi path!
 import { LdapCard } from './ldap-card/ldap-card';
@@ -12,7 +12,7 @@ import {MatTooltip} from '@angular/material/tooltip';
 import {MatIcon} from '@angular/material/icon';
 import {AccountStatusPipe, BadgeColorPipe, InitialsPipe} from '../../table-badges/table-badges.pipe';
 import {PostgresUserService} from '../../services/postgres-user.service';
-import {PostgresUser} from '../../models/postgres-user.model';
+import {PostgresUser,UserDTO} from '../../models/postgres-user.model';
 import {PostgresInstitucija} from '../../models/postgres-institucija.model';
 import {PostgresStatus} from '../../models/postgres-status.model';
 import {InstitucijaService} from '../../services/postgres-institucija.service';
@@ -32,11 +32,14 @@ export class KorisniciDetails {
   @Input() set user(value: User | undefined) {
     this._user.set(value);
   }
+  @Output() userSaved = new EventEmitter<UserDTO>();
   institucije = signal<PostgresInstitucija[]>([])
   statusi = signal<PostgresStatus[]>([]);
-  pgUser = signal<PostgresUser | null>(null);
-  onUserSaved(newUser: PostgresUser) {
+  pgUser = signal<UserDTO | null>(null);
+  onUserSaved(newUser: UserDTO) {
     this.pgUser.set(newUser);
+    this.userSaved.emit(newUser); //vracamo promene u Dashboard
+    //console.log('da li emitujemo: ' + JSON.stringify(newUser) );
   }
   get user() { return this._user(); }
 
@@ -46,10 +49,11 @@ export class KorisniciDetails {
               public viewContainerRef: ViewContainerRef ) {
     effect(() => {
       const currentUser = this._user();
-      console.log(currentUser);
       if (!currentUser) return;
 
       this.pgService.getUser(currentUser.username).subscribe(u => this.pgUser.set(Array.isArray(u) ? u[0] : u ?? null));
+      //console.log('korisnik u details: ' + JSON.stringify(this.pgUser, null, 2));
+
       this.pgInstitucijaService.getInstitucije().subscribe(i => this.institucije.set(i));
       this.pgStatusService.getStatusi().subscribe(s => this.statusi.set(s));
     });

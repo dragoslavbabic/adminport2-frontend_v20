@@ -20,7 +20,8 @@
         <mat-icon>close</mat-icon>
       </button>
       <div style="clear:both"></div>
-      <korisnici-details [user]="selectedUser()"></korisnici-details>
+      <korisnici-details [user]="selectedUser()"
+                          (userSaved)="onPostgresUserSaved($event)"></korisnici-details>
     </div>
     <div class="panel-overlay" (click)="onDetailsClose()"></div>
   }

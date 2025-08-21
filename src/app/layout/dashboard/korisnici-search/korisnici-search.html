@@ -1,6 +1,6 @@
 <form [formGroup]="searchBox" (ngSubmit)="onSearch()" class="search-form">
-  <mat-form-field appearance="outline" class="search-input">
-    <mat-label>Pretraga *</mat-label>
+  <mat-form-field appearance="outline" class="search-input" floatLabel="always">
+    <mat-label class="myLabel">Pretraga *</mat-label>
     <input matInput formControlName="searchBox" (keyup.enter)="onSearch()" />
   </mat-form-field>
   <button mat-icon-button color="primary" type="submit">

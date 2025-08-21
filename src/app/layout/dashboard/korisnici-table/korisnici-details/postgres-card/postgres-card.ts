@@ -1,5 +1,5 @@
-import {Component, effect, EventEmitter, Input, input, Output, signal, ViewContainerRef} from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {Component, effect, EventEmitter, Input, input, Output, Signal, signal, ViewContainerRef} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { PostgresUserService } from '../../../services/postgres-user.service';
 import { MatInput} from '@angular/material/input';
 import {MatButton,} from '@angular/material/button';
@@ -7,11 +7,12 @@ import { MatCard,} from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-import { PostgresUser } from '../../../models/postgres-user.model'
+import { PostgresUser,UserDTO, UserUpdateDTO, UserCreateDTO, StatusDTO, InstitucijaDTO } from '../../../models/postgres-user.model'
 import { PostgresInstitucija } from '../../../models/postgres-institucija.model';
 import { PostgresStatus } from '../../../models/postgres-status.model';
 import { User } from '../../../models/user.model';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'postgres-card',
@@ -30,7 +31,7 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
   ]
 })
 export class PostgresCard {
-  pgUser = input<PostgresUser | null>(null);
+  //pgUser = input<UserDTO | null>(null);
   lastname = input<string | undefined>(undefined);
   username = input<string | undefined>(undefined);
   fullname = input<string | undefined>(undefined);
@@ -39,8 +40,9 @@ export class PostgresCard {
   statusi = input<PostgresStatus[]>([]);
   editMode = signal(false);
 
+  @Input() pgUser!: Signal<UserDTO | null>;
   @Input() viewContainerRef: ViewContainerRef | undefined;
-  @Output() userSaved = new EventEmitter<PostgresUser>();
+  @Output() userSaved = new EventEmitter<UserDTO>();
 
   // Reactive form kao signal
   form = signal<FormGroup>(null!);
@@ -62,49 +64,51 @@ export class PostgresCard {
   private createEmptyForm(): FormGroup {
     return this.fb.group({
       id: [null],
-      rawPgUsername: [''],
-      rawPgIme: [''],
-      rawPgPrezime: [''],
-      rawPgAdresa: [''],
-      rawPgTelefon: [''],
-      rawPgIndeks: [null],
-      rawPgInstitucija: [null],
-      rawPgStatus: [null],
-      rawPgKomentar: [''],
-      rawPgDatum: [null],
+      username: [''],
+      ime: [''],
+      prezime: [''],
+      adresa: [''],
+      telefon: [''],
+      indeks: [null],
+      institucijaId: [null, Validators.required],
+      statusId: [null, Validators.required],
+      komentar: [''],
+      //datum: [null],
     });
   }
 
   /** Helper: postavi vrednosti u formu na osnovu inputa */
   private patchFormData() {
     const user = this.pgUser();
+    //console.log('ima li nesto za formu: ' + JSON.stringify(user));
+    //console.log('user.status:', user?.status, typeof user?.status);
+
     if (user) {
       this.form().patchValue({
         id: user.id,
-        rawPgUsername: user.rawPgUsername ?? '',
-        rawPgIme: user.rawPgIme ?? '',
-        rawPgPrezime: user.rawPgPrezime ?? '',
-        rawPgAdresa: user.rawPgAdresa ?? '',
-        rawPgTelefon: user.rawPgTelefon ?? '',
-        rawPgIndeks: user.rawPgIndeks ?? null,
-        rawPgInstitucija: user.rawPgInstitucija ?? null,
-        rawPgStatus: user.rawPgStatus ?? null,
-        rawPgKomentar: user.rawPgKomentar ?? '',
+        username: user.username ?? '',
+        ime: user.ime ?? '',
+        prezime: user.prezime ?? '',
+        adresa: user.adresa ?? '',
+        telefon: user.telefon ?? '',
+        indeks: user.indeks ?? null,
+        institucijaId: user.institucija?.id ?? null,
+        statusId: user.status?.id ?? null,
+        komentar: user.komentar ?? '',
         });
-    } else {
+          } else {
       // Novi korisnik: popuni iz LDAP (ili ostavi prazno)
       this.form().patchValue({
         id: null,
-        rawPgUsername: this.username() ?? '',
-        rawPgIme: this.fullname() ?? '',
-        rawPgPrezime: this.lastname() ?? '',
-        rawPgAdresa: '',
-        rawPgTelefon: '',
-        rawPgIndeks: null,
-        rawPgInstitucija: null,
-        rawPgStatus: null,
-        rawPgKomentar: '',
-        rawPgDatum: null,
+        username: this.username() ?? '',
+        ime: this.fullname() ?? '',
+        prezime: this.lastname() ?? '',
+        adresa: '',
+        telefon: '',
+        indeks: null,
+        institucijaId: 8,
+        statusId: 2,
+        komentar: '',
       });
     }
   }
@@ -113,26 +117,41 @@ export class PostgresCard {
   submit() {
     const group = this.form();
     if (group && group.valid) {
-      this.pgUserService.saveUser(group.value).subscribe({
-        next: (resp: PostgresUser) => {
-          // Ne patchuj lokalno! Samo emit-uj event parentu
+      const data = group.value;
+
+      let request$: Observable<UserDTO>;
+
+      if (data.id) {
+        // Editovanje korisnika (POSTOJI id)
+        request$ = this.pgUserService.updateUser(data);
+      } else {
+        // Novi korisnik (NE POSTOJI id)
+        request$ = this.pgUserService.addUser(data);
+      }
+
+      request$.subscribe({
+        next: (resp: UserDTO) => {
           this.userSaved.emit(resp);
           this.editMode.set(false);
-          group.disable({ emitEvent: false });
-          this.snackBar.open('Promene sačuvane!', '',{
-            duration: 2000,
-            panelClass: ['snackbar-success'],
-            viewContainerRef: this.viewContainerRef,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-          })
+          group.disable({emitEvent: false});
+          this.snackBar.open(
+            data.id ? 'Promene sačuvane!' : 'Korisnik dodat!',
+            '',
+            {
+              duration: 2000,
+              panelClass: ['snackbar-success'],
+              viewContainerRef: this.viewContainerRef,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+            }
+          );
         },
         error: (err) => {
-          /* error obrada */
-        this.snackBar.open(err.message, '',{
-          duration: 2000,
-          panelClass: ['snackbar-error'],
-        })},
+          this.snackBar.open(err.message, '', {
+            duration: 2000,
+            panelClass: ['snackbar-error'],
+          });
+        }
       });
     }
   }

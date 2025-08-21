@@ -8,7 +8,7 @@
       <app-top-bar />
       <div class="main-content-scrollable">
         <!-- Sve unutar ovoga se skroluje -->
-        <mat-card-header><h2>Neki title</h2></mat-card-header>
+        <mat-card-header><h2>{{ pageHeader() }}</h2></mat-card-header>
         <mat-card>
           <router-outlet></router-outlet>
         </mat-card>

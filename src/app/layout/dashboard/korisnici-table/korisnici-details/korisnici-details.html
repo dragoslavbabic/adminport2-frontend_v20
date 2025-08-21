@@ -58,7 +58,7 @@
       <div class="tab-pane fade show active" id="ldap" role="tabpanel" aria-labelledby="ldap-tab">
         <ldap-card
           [user]="user.ldap"
-          [institution]="user.postgres?.rawPgInstitucija || undefined"></ldap-card>
+          [institution]="user.ldap?.ldapInstitucija || undefined"></ldap-card>
       </div>
 
       <div class="tab-pane fade" id="logs" role="tabpanel" aria-labelledby="logs-tab">
@@ -70,7 +70,7 @@
       <div class="tab-pane fade" id="postgres" role="tabpanel" aria-labelledby="postgres-tab">
         <postgres-card [baseUser]="user"
                        [viewContainerRef]="viewContainerRef"
-                       [pgUser]="pgUser()"
+                       [pgUser]="pgUser"
                        [fullname]="user.ldap?.ldapFullName"
                        [lastname]="user.ldap?.ldapLastName"
                        [username]="user.ldap?.ldapUsername"

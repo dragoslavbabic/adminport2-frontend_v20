@@ -1,111 +1,153 @@
 <div class="wiki-gen-cards" >
-  <!-- Sednica -->
 
-  <mat-card class="wikiCards">
-    <div>
-    <mat-card-subtitle>Odaberi sednicu:</mat-card-subtitle>
-    <mat-card-content>
-      <mat-button-toggle-group [hideSingleSelectionIndicator]=true class="myToggle" [(ngModel)]="sednicaType">
-        <mat-button-toggle *ngFor="let s of sednice" [value]="s.value">{{ s.label }}</mat-button-toggle>
-      </mat-button-toggle-group>
-<!--      <span style="margin-left: 8px;">{{ sednicaType }}</span>-->
-    </mat-card-content>
-    </div>
-    <div>
-    <mat-card-subtitle>Odaberi tip sednice:</mat-card-subtitle>
-    <mat-card-content>
-      <mat-button-toggle-group class="myToggle" [hideSingleSelectionIndicator]=true [(ngModel)]="tipSednice">
-        <mat-button-toggle value="Redovna">Redovna</mat-button-toggle>
-        <mat-button-toggle value="Vanredna">Vanredna</mat-button-toggle>
-      </mat-button-toggle-group>
-    </mat-card-content>
-    </div>
-    <div>
-    <mat-card-subtitle>Datum održavanja sednice:</mat-card-subtitle>
-    <mat-card-content>
-      <mat-form-field appearance="outline" class="myToggle">
-        <input matInput [matDatepicker]="picker" (click) ="picker.open()" placeholder="Izaberi datum" [(ngModel)]="datum">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    </mat-card-content>
-    </div>
-    <div>
-    <mat-card-subtitle>Broj sednice:</mat-card-subtitle>
-    <mat-card-content>
-      <mat-form-field appearance="outline">
-        <input matInput  placeholder="Unesi broj sednice" type="number" [(ngModel)]="brojSednice">
-      </mat-form-field>
-    </mat-card-content>
-    </div>
-    <mat-card-subtitle>Odaberi PDF fajl:</mat-card-subtitle>
-    <mat-card-content>
-      <mat-form-field appearance="outline" density="compact" >
-        <input type="file" (change)="onPdfSelected($event)" accept="application/pdf" hidden #pdfInput>
-        <input matInput [value]="pdfNaziv" placeholder="Odaberi PDF fajl" readonly (click)="pdfInput.click()">
-        <button mat-icon-button matSuffix (click)="pdfInput.click()" tabindex="-1">
-          <mat-icon>folder_open</mat-icon>
-        </button>
-      </mat-form-field>
-      <mat-form-field appearance="outline" density="compact">
-        <input matInput>
-      </mat-form-field>
-    </mat-card-content>
+  <!-- 1. Odabir sednice -->
+  <mat-card class="wikiCards PrvaKartica">
+      <mat-card-subtitle>Odaberi sednicu:</mat-card-subtitle>
+      <mat-card-content>
+        <mat-button-toggle-group [hideSingleSelectionIndicator]=true class="myToggle"  (change)="setPortal($event.value)" [(ngModel)]="wikiStore.state.portal">
+            <mat-button-toggle value="senat">Senat</mat-button-toggle>
+            <mat-button-toggle value="savet">Savet</mat-button-toggle>
+            <mat-button-toggle value="statutarna">Statuturna</mat-button-toggle>
+            <mat-button-toggle value="etika">Etika</mat-button-toggle>
+        </mat-button-toggle-group>
+      </mat-card-content>
   </mat-card>
 
- <!-- &lt;!&ndash; Tip sednice &ndash;&gt;
+  <!-- 2. Odabir tipa sednice -->
+  @if (showStep2) {
   <mat-card class="wikiCards">
     <mat-card-subtitle>Odaberi tip sednice:</mat-card-subtitle>
     <mat-card-content>
-      <mat-button-toggle-group class="myToggle" [hideSingleSelectionIndicator]=true [(ngModel)]="tipSednice">
-        <mat-button-toggle value="Redovna">Redovna</mat-button-toggle>
-        <mat-button-toggle value="Vanredna">Vanredna</mat-button-toggle>
+      <mat-button-toggle-group class="myToggle" [hideSingleSelectionIndicator]=true (change)="setSednicaTip($event.value) " [(ngModel)]="wikiStore.state.tipSednice">
+        <mat-button-toggle value="redovna">Redovna</mat-button-toggle>
+        <mat-button-toggle value="vanredna">Vanredna</mat-button-toggle>
       </mat-button-toggle-group>
     </mat-card-content>
   </mat-card>
+  }
 
-  &lt;!&ndash; Datum &ndash;&gt;
+  <!-- 3. Datum -->
+  @if (showStep3) {
   <mat-card class="wikiCards">
     <mat-card-subtitle>Datum održavanja sednice:</mat-card-subtitle>
     <mat-card-content>
-      <mat-form-field appearance="outline" class="myToggle">
-        <input matInput [matDatepicker]="picker" (click) ="picker.open()" placeholder="Izaberi datum" [(ngModel)]="datum">
+      <mat-form-field appearance="outline" class="myToggle" floatLabel="always">
+        <mat-label class="myLabel">Datum *</mat-label>
+        <input matInput readonly [matDatepicker]="picker" (click) ="picker.open()" (dateChange)="setDatum($event)"[(ngModel)]="wikiStore.state.sednicaDatum">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </mat-card-content>
   </mat-card>
+  }
 
-  &lt;!&ndash; Broj sednice &ndash;&gt;
+  <!-- 4. Broj sednice -->
+  @if (showStep4) {
   <mat-card class="wikiCards">
     <mat-card-subtitle>Broj sednice:</mat-card-subtitle>
     <mat-card-content>
-      <mat-form-field appearance="outline">
-        <input matInput  placeholder="Unesi broj sednice" type="number" [(ngModel)]="brojSednice">
+      <mat-form-field appearance="outline" floatLabel="always" style="width:100%">
+        <mat-label class="myLabel">Broj sednice *</mat-label>
+        <input matInput
+               type="number"
+               [min]="1"
+               [max]="99" required
+               (input)="setSednicaBroj($event)"
+               (keyup)="setSednicaBroj($event)"
+               [(ngModel)]="wikiStore.state.brojSednice">
+<!--
+        <mat-hint *ngIf="!brojSedniceError">&nbsp;</mat-hint>
+-->
+        @if (wikiStore.state.brojSedniceError) {
+          <div>
+          <mat-error style="width: fit-content">{{ wikiStore.state.brojSedniceError }}</mat-error>
+          </div>
+            }
       </mat-form-field>
     </mat-card-content>
   </mat-card>
+  }
 
-  &lt;!&ndash; PDF fajl &ndash;&gt;
+  <!-- 5. PDF fajl -->
+  @if (showStep5) {
   <mat-card class="wikiCards">
-    <mat-card-subtitle>Odaberi PDF fajl:</mat-card-subtitle>
+    <mat-card-subtitle>PDF fajl:</mat-card-subtitle>
     <mat-card-content>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label class="myLabel">Odaberi PDF fajl *</mat-label>
         <input type="file" (change)="onPdfSelected($event)" accept="application/pdf" hidden #pdfInput>
-        <input matInput [value]="pdfNaziv" placeholder="Odaberi PDF fajl" readonly (click)="pdfInput.click()">
+        <input matInput [value]="wikiStore.state.pdfNaziv" readonly (click)="pdfInput.click()">
         <button mat-icon-button matSuffix (click)="pdfInput.click()" tabindex="-1">
           <mat-icon>folder_open</mat-icon>
         </button>
       </mat-form-field>
     </mat-card-content>
   </mat-card>
+  }
 
-  &lt;!&ndash; Wiki akcija &ndash;&gt;
+  <!-- 6. Generiši wiki kod -->
+  @if (showStep6) {
   <mat-card class="wikiCards">
     <mat-card-subtitle>Generiši WIKI kod!</mat-card-subtitle>
     <mat-card-content>
-      <button mat-raised-button color="primary" (click)="generisiWiki()">Čitaj</button>
+      <button mat-raised-button class="button-generisi" (click)="sendWikiData()">Čitaj</button>
     </mat-card-content>
-  </mat-card>-->
+  </mat-card>
+  }
 </div>
+<hr class="my-divider">
 
+<!--DONJI DEO WIKI GENERATORA-->
+<div class="wiki-layout">
+  <!-- LEVA KOLONA -->
+  <div class="left-col">
+    <!-- 1) WIKI KOD (tvoje postojeće kartice/koraci) -->
+    <mat-card class="wikiCards">
+      <mat-card-title>WIKI KOD</mat-card-title>
+      <!-- ... ovde ostaje ceo sadržaj tvoje prve kartice (toggle, stepovi, itd.) ... -->
+      <mat-card-subtitle class="mat-card_sub">
+        <span class="span_center" style="margin-right: 6px;">PRETHODNE SEDNICE</span>
+        <mat-slide-toggle [(ngModel)]="wikiStore.state.prikaziOsnovniTekst">
+          <!--
+                  {{ wikiStore.state.prikaziOsnovniTekst ? 'Основна страница' : 'Скорашње седнице' }}
+          -->
+        </mat-slide-toggle>
+        <span class="span_center" style="margin-left: 6px;">OSNOVNA STRANICA</span>
+
+      </mat-card-subtitle>
+    </mat-card>
+
+    <!-- 2) Скорашње седнице – унос (ispod WIKI KOD kartice) -->
+    @if (!wikiStore.state.prikaziOsnovniTekst) {
+      <mat-card class="wikiCards wikiKodCard">
+        <mat-card-subtitle>Skorašnje sednice - unos</mat-card-subtitle>
+        <mat-card-content>
+          <pre class="WikiKod">{{ recentEntry }}</pre>
+          @if (showStep5) {
+          <button mat-raised-button class="button-generisi" data-mdb-ripple-init
+                  (click)="kopirajSkorasnjeLink()">
+            Kopiraj
+          </button>
+          }
+          @if(kopirano_skorasnje_link) {
+            <a class="edit_link" href="https://portal.uns.ac.rs/{{wikiStore.state.portal}}/pmwiki.php?n=Site.SideBar?action=edit" target="_blank">Edit sidebar</a>
+          }
+        </mat-card-content>
+
+      </mat-card>
+    }
+  </div>
+  <!-- DESNA KOLONA -->
+  <div class="right-col">
+    <mat-card class="wikiCards wikiKodCard">
+      <mat-card-subtitle>Generisani PmWiki tekst:</mat-card-subtitle>
+      <mat-card-content>
+        <pre class="WikiKod">{{ pmWikiKod }}</pre>
+        <button mat-raised-button class="button-generisi" (click)="kopirajWikiKod()">Kopiraj sadržaj</button>
+        @if(kopirano){
+        <span style="color:green; margin-left:10px;">Kopirano!</span>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+ </div>

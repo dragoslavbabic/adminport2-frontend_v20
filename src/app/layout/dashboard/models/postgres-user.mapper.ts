@@ -1,19 +1,20 @@
-import { PostgresUser } from './postgres-user.model';
+import {UserDTO} from './postgres-user.model';
 
-export function mapApiPostgresUser(api: any): PostgresUser {
+export function mapApiPostgresUser(api: any): UserDTO {
+  //console.log('Ulaz u maper:', api);
   return {
 
-    pgDatum: api.pgDatum ?? null,
-    pgInfo: api.pgInfo ?? null,
-    studregUserName: api.studregUserName ?? null,
+    //datum: api.pgDatum ?? null,
+    //info: api.pgInfo ?? null,
     id: Number (api.id) || 0,
-    rawPgUsername: api.rawPgUsername,
-    rawPgIme: api.rawPgIme,
-    rawPgPrezime: api.rawPgPrezime ?? null,
-    rawPgAdresa: api.rawPgAdresa ?? null,
-    rawPgTelefon: api.rawPgTelefon ?? null,
-    rawPgIndeks: api.pgIndeks ?? null,
-    rawPgKomentar: api.rawPgKomentar ?? null,
-    rawPgInstitucija: api.pgInstitucija ?? null,
+    username: api.rawPgUsername,
+    ime: api.rawPgIme,
+    prezime: api.rawPgPrezime ?? null,
+    adresa: api.rawPgAdresa ?? null,
+    telefon: api.rawPgTelefon ?? null,
+    indeks: api.rawPgIndeks ?? null,
+    komentar: api.rawPgKomentar ?? null,
+    status: api.rawPgStatus ?? null,
+    institucija: api.rawPgInstitucija ?? null,
   };
 }

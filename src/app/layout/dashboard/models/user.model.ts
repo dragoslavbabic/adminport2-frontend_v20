@@ -1,5 +1,5 @@
 import { LdapUser } from './ldap-user.model';
-import { PostgresUser } from './postgres-user.model';
+import {PostgresUser, UserDTO} from './postgres-user.model';
 
 export interface User {
   id: string;
@@ -17,5 +17,5 @@ export interface User {
 
   // Za kartice:
   ldap?: LdapUser;
-  postgres?: PostgresUser;
+  postgres?: UserDTO;
 }

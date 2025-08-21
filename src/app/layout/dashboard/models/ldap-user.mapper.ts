@@ -15,5 +15,9 @@ export function mapApiLdapUser(api: any): LdapUser {
     ldapCreateTimestamp: api.ldapCreateTimestamp ? new Date(api.ldapCreateTimestamp) : new Date(),
     noShadowLastChange: !!api.noShadowLastChange,
     isActive: api.isActive ?? false,
+    studregUserName: api.studregUserName ?? '',
+    ldapIndeks: api.pgIndeks ?? '',
+    ldapInstitucija: api.pgInstitucija ?? '',
+    ldapStatus: api.pgStatus ?? '',
   };
 }

@@ -13,5 +13,9 @@ export interface LdapUser {
   ldapUnsService: string[];
   ldapCreateTimestamp: Date;
   noShadowLastChange: boolean;
+  studregUserName: string;
+  ldapInstitucija: string;
+  ldapStatus: string;
+  ldapIndeks: string;
   isActive: boolean;
 }

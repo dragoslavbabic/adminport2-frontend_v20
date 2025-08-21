@@ -1,15 +1,16 @@
-import {Component, signal, ViewChild, ElementRef, AfterViewInit, Renderer2} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Renderer2, signal, ViewChild} from '@angular/core';
 
 // Standalone imports child komponenti:
-import { KorisniciSearch } from './korisnici-search/korisnici-search';
-import { PasswordGenerator } from './password-generator/password-generator';
-import { KorisniciTable } from './korisnici-table/korisnici-table';
-import { KorisniciDetails } from './korisnici-table/korisnici-details/korisnici-details';
+import {KorisniciSearch} from './korisnici-search/korisnici-search';
+import {PasswordGenerator} from './password-generator/password-generator';
+import {KorisniciTable} from './korisnici-table/korisnici-table';
+import {KorisniciDetails} from './korisnici-table/korisnici-details/korisnici-details';
 import {KorisniciService} from './services/korisnici-service';
 import {User} from './models/user.model';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatIconModule} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
+import {UserDTO} from './models/postgres-user.model';
 
 
 @Component({
@@ -65,6 +66,20 @@ export class Dashboard implements AfterViewInit{
   onDetailsClose() {
     this.selectedUser.set(undefined);
     this.renderer.removeClass(this.dashboardRoot.nativeElement, 'panel-open');
+  }
+
+  onPostgresUserSaved(updatedPgUser: UserDTO) {
+    this.users.update(users => {
+      return users.map(u =>
+        u.username === String(updatedPgUser.username)
+          ? {
+            ...u,
+            index: updatedPgUser.indeks ?? u.index,
+            institution: updatedPgUser.institucija?.naziv ?? u.institution
+          }
+          : u
+      );
+    });
   }
 
 

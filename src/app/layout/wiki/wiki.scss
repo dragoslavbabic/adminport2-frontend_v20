@@ -1,0 +1,244 @@
+/* =========================
+   wiki.scss (component scope)
+   ========================= */
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+
+/* Vars */
+$font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$brand-primary: #248afd;
+$brand-secondary: #f5a623;
+$brand-support1: #ff4747;
+$brand-support2: #71c02b;
+$brand-support3: #ffc100;
+$brand-primary-dark: #286090;
+$brand-hover: #204d74;
+$surface-muted: #f3f3f3;
+
+$card-radius: 10px;
+$gap: 16px;
+$card-padding: 16px;
+
+/* Layout */
+.wiki-gen-cards {
+  display: flex;
+  gap: $gap;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* Cards */
+.wikiCards {
+  margin-top: 12px;
+  min-width: 200px;
+  min-height: 110px; /* podešavaj po potrebi */
+  padding: $card-padding;
+  border-radius: 4px;
+  display: block;
+  font-family: $font-family;
+}
+
+.PrvaKartica {
+  margin-left: $gap;
+}
+
+.wikiKodCard {
+  padding: $card-padding;
+}
+
+/* Toggles (button group) */
+.mat-button-toggle-group.myToggle {
+  height: 2rem !important;
+  align-items: center;
+}
+
+mat-button-toggle-group {
+  box-shadow: none;
+  color: #fff;
+}
+
+mat-button-toggle {
+  color: #fff;
+  background-color: $brand-primary;
+  font-size: 14px;
+  font-family: $font-family;
+
+  &:hover {
+    background-color: $brand-hover !important;
+    border-radius: 5px !important;
+  }
+
+  &.mat-button-toggle-checked {
+    background-color: $brand-support2 !important;
+    border-color: $brand-primary-dark;
+    color: #fff !important;
+  }
+}
+
+.button-generisi {
+  background-color: $brand-primary !important;
+  color: white !important;
+  font-size: 14px;
+  font-family: $font-family;
+  &:hover {
+    background-color: $brand-hover !important;
+    border-radius: 5px !important;
+  }
+}
+
+/* Card subtitle */
+.mat-mdc-card-subtitle {
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+
+/* Labels & inputs */
+.myLabel {
+  font-size: 14px !important;
+  font-style: italic;
+}
+
+.mdc-text-field__input,
+input.mat-mdc-input-element {
+  min-height: 30px !important;
+  height: 30px !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  font-size: 12px !important;
+}
+
+/* Pre block for generated Wiki code */
+.WikiKod {
+  white-space: pre-wrap;
+  background: $surface-muted;
+  border-radius: $card-radius;
+  padding: 16px;
+  max-height: 500px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+/* Slide-toggle tweaks */
+/* isti izgled ON i OFF */
+:host ::ng-deep .mat-mdc-slide-toggle .mdc-switch__track::before,
+:host ::ng-deep .mat-mdc-slide-toggle .mdc-switch__track::after {
+  background-color: $brand-primary !important; /* boja trake */
+  opacity: 1 !important;                 /* skloni zatamnjenje u OFF */
+}
+
+:host ::ng-deep .mat-mdc-slide-toggle .mdc-switch--selected .mdc-switch__handle::after,
+:host ::ng-deep .mat-mdc-slide-toggle .mdc-switch--unselected .mdc-switch__handle::after {
+  background-color: $brand-secondary !important;  /* boja kuglice */
+}
+/* Ukloni kvačicu i minus ikonu u kuglici */
+:host {
+  ::ng-deep .mat-mdc-slide-toggle .mdc-switch__icons {
+    display: none !important;
+  }
+
+  // (opciono) ako želiš i malo veću kuglicu
+  ::ng-deep .mat-mdc-slide-toggle .mdc-switch__handle {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Boje preko MDC CSS varijabli */
+/* isti look u ON i OFF stanju */
+  /* sakrij ikonice u kuglici (kvačica/minus) */
+  /* (ako već nemaš ovo) */
+
+:host ::ng-deep .mat-mdc-slide-toggle .mdc-switch__icons { display: none !important; }
+
+/* MDC po difoltu zatamnjuje OFF track; izjednači */
+:host ::ng-deep .mat-mdc-slide-toggle .mdc-switch .mdc-switch__track {
+  opacity: 1 !important;
+}
+
+/*mat-button-toggle {
+  color: #003049;
+  background-color: #fcbf49;
+
+  &:hover {
+    background-color: #eae2b7 !important;
+    color: #313131;
+    border-radius: 5px !important;
+  }
+
+  &.mat-button-toggle-checked {
+    background-color: #f77f00 !important;
+    border-color: #003049;
+    color: #fff !important;
+  }
+}*/
+/* Dvokolonski raspored */
+/* 2 kolone: 30% / 70% */
+.wiki-layout {
+  display: grid;
+  grid-template-columns: auto 1fr; /* Leva auto, desna puni ostatak */
+  gap: 20px;
+  align-items: start;
+}
+
+/* leve/desne kolone (nije obavezno, ali zgodno za dodatne stilove) */
+.left-col  {
+  /*
+  display: grid;
+  */
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.right-col {
+  position: relative;
+}
+
+/* neka desna kartica bude “lepljiva” da ostaje u vidu pri skrolu */
+.right-col .wikiCards {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 16px;
+}
+
+/* responsiveness: na užim ekranima sve u jednu kolonu */
+@media (max-width: 1100px) {
+  .wiki-layout {
+    grid-template-columns: 1fr;
+  }
+  .right-col .wikiCards {
+    position: static; /* skini sticky na malim ekranima */
+  }
+}
+
+/* postojeći blok za prikaz koda ostaje isti */
+.WikiKod {
+  white-space: pre-wrap;
+  background: #f3f3f3;
+  border-radius: 10px;
+  padding: 16px;
+  max-height: 500px;
+  overflow-y: auto;
+  margin-top: 10px;
+}
+
+.my-divider{
+  border-top: none;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #888, transparent);
+  box-shadow: 0 2px 6px rgba(1,0,0,0.1);
+}
+
+.myButton {
+  width: 70%;
+  background-color: #f77f00;
+  border-color: #f5b301;
+}
+
+.edit_link{
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  padding: 5px;
+  margin-left: 30px;
+}
+
+
