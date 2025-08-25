@@ -1,11 +1,50 @@
-<!-- sidebar.component.html -->
-<mat-nav-list>
-  <a mat-list-item routerLink="/korisnici" routerLinkActive="active">
-    <mat-icon>search</mat-icon>
-    <span>Pretraga korisnika</span>
-  </a>
-  <a mat-list-item routerLink="/wiki" routerLinkActive="active">
-    <mat-icon>wiki</mat-icon>
-    <span>Wiki</span>
-  </a>
-</mat-nav-list>
+<div class="sidebar-header d-flex align-items-center justify-content-center">
+  <a>CITUNS ADMINPORT II</a>
+</div>
+<mat-accordion class="my-accordion">
+  <mat-expansion-panel class="nav-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon class="sidebar-icons">people</mat-icon>
+        <span class="parent-title">Korisnici</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-nav-list class="submenu-list">
+      <a mat-list-item [routerLink]="['/korisnici']">
+        <mat-icon class="sidebar-icons" matListItemIcon>search</mat-icon>
+        <div matListItemTitle>Pretraga korisnika</div>
+      </a>
+
+      <a mat-list-item [routerLink]="['/korisnici']">
+        <mat-icon class="sidebar-icons" matListItemIcon>person_add</mat-icon>
+        <div matListItemTitle>Kreiranje korisnika</div>
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel class="nav-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon class="sidebar-icons">account_balance</mat-icon>
+        <span class="parent-title">Rektorat</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-nav-list class="submenu-list">
+      <a mat-list-item [routerLink]="['/wiki']">
+        <mat-icon class="sidebar-icons" matListItemIcon>article</mat-icon>
+        <div matListItemTitle>WIKI stranica</div>
+      </a>
+<!--      <a mat-list-item [routerLink]="['/rektorat/racunari']">
+        <mat-icon class="sidebar-icons" matListItemIcon>computer</mat-icon>
+        <div matListItemTitle>Računari u rektoratu</div>
+      </a>
+      <a mat-list-item [routerLink]="['/rektorat/telefoni']">
+        <mat-icon class="sidebar-icons" matListItemIcon>call</mat-icon>
+        <div matListItemTitle>Telefoni</div>
+      </a>-->
+    </mat-nav-list>
+  </mat-expansion-panel>
+</mat-accordion>
+

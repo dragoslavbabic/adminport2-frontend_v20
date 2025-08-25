@@ -14,6 +14,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
     req.url.includes('/auth/login') ||
     req.url.includes('/auth/refresh-token')
   ) {
+    console.log('REDIRECTOR REDIRECTOR REDIRECTOR');
     return next(req);
   }
 

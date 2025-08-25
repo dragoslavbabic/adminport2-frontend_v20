@@ -1,0 +1,37 @@
+/* =========================
+   wiki.scss (component scope)
+   ========================= */
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+
+/* Vars */
+$font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif !important;
+$brand-primary: #248afd;
+$brand-secondary: #f5a623;
+$brand-support1: #ff4747;
+$brand-support2: #71c02b;
+$brand-support3: #ffc100;
+$brand-primary-dark: #286090;
+$brand-hover: #204d74;
+$surface-muted: #f3f3f3;
+
+$card-radius: 10px;
+$gap: 16px;
+$card-padding: 16px;
+
+.top-bar {
+  background-color: $brand-hover;
+  font-size: 1rem;
+  font-weight: bold;
+  height: 40px;
+  color:white;
+  display: flex;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.top-bar img {
+  max-width: 200%;
+  max-height: 200%;
+  object-fit: contain; /* ili cover */
+  display: block;
+}

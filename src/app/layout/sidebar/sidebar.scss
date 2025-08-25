@@ -1,0 +1,169 @@
+$font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$brand-support1: #ff4747;
+$brand-support2: #71c02b;
+$brand-support3: #ffc100;
+$brand-primary-dark: #286090;
+$brand-hover: #204d74;
+$surface-muted: #f3f3f3;
+
+$card-radius: 10px;
+$gap: 16px;
+$card-padding: 16px;
+
+/*mat-nav-list {
+  padding: 0;
+}
+
+mat-list-item {
+  height: 48px;
+  font-size: 16px;
+  color: white;
+}
+
+.nav-accordion {
+  width: 100%;
+}
+
+mat-expansion-panel {
+  border-radius: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+mat-expansion-panel-header {
+  font-family: $font-family;
+  font-size: 14px;                    !* promeni veličinu *!
+}
+
+.header-text { margin-left: 8px; }
+mat-nav-list a[mat-list-item] mat-icon { margin-right: 12px; }
+
+.mat-mdc-list-item span {
+  font-family: $font-family;
+  font-size: 14px;                    !* promeni veličinu *!
+  font-weight: 500;                   !* ako želiš bold *!
+}
+
+.sidebar-header {
+  background-color: $brand-support2;
+  font-size: 1rem;
+  font-weight: bold;
+  height: 40px;
+  color:white;
+  display: flex;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.icon-size {
+  font-size: 1.2rem;
+}
+
+!* smanji razmak između "Korisnici" i prve podstavke *!
+.mat-expansion-panel-body {
+  padding-top: 0;   !* default je oko 16px *!
+  padding-bottom: 0;
+}
+
+.mat-mdc-list-item {
+  align-items: center;
+}
+
+.mat-mdc-list-item span {
+  margin-left: 4px;   !* manji razmak ikona–tekst *!
+  white-space: normal;  !* da tekst prelomi u dva reda ako je dugačak *!
+}
+
+.mat-expansion-panel-body {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.mat-mdc-list-item {
+  align-items: center;
+}
+
+.mat-mdc-list-item span {
+  margin-left: 4px;
+  white-space: normal;
+}
+
+.mat-expansion-panel .mat-mdc-list-item span {
+  font-size: 14px;
+}*/
+
+/* 1) Manji razmak izmedju zaglavlja i prvog deteta */
+
+.sidebar-header {
+  background-color: $brand-hover;
+  font-size: 1rem;
+  font-weight: bold;
+  height: 40px;
+  color:white;
+  display: flex;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.nav-panel .mat-expansion-panel-body {
+  /* default je ~16px */
+  padding: 4px 8px 6px;
+  margin-top: 20px;
+  background-color: $brand-support2 !important;
+}
+
+/* 2) Zbijenija lista i levo poravnan tekst */
+.submenu-list {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* 3) Manja visina stavke i manji leva/desna margina */
+.submenu-list .mat-mdc-list-item {
+  min-height: 36px;                  /* zbijenije (default je ~48px) */
+}
+
+/* MDC list padding levo — približi tekst ikoni */
+.submenu-list .mdc-list-item {
+  padding-left: 8px;                 /* default ~16px */
+  padding-right: 8px;
+}
+
+/* 4) Ikonica poravnata po sredini sa tekstom + manji razmak */
+.submenu-list [matListItemIcon] {
+  margin-right: 8px;                 /* smanji razmak ikona–tekst */
+  align-self: center;                /* vertikalno poravnanje */
+}
+
+/* 5) Tekst: levo, normalno prelamanje da stanu sva slova */
+.submenu-list [matListItemTitle] {
+  font-size: 12px;
+  line-height: 1.25;
+  white-space: normal;               /* dozvoli prelom umesto “…” */
+  word-break: break-word;            /* bez ružnog preloma */
+}
+
+/* 6) Roditeljski naslov malo izraženiji */
+.parent-title {
+  margin-left: 8px;
+  font-weight: 600;
+  color: white;
+}
+
+.mat-panel-title {
+  color: white;
+}
+
+.nav-panel  {
+  background-color: #3f5b7a;   /* svetlosiva */
+  color: white;
+}
+
+.sidebar-icons {
+  color: white;
+}
+
+/* ili samo u okviru određenog akordiona/panela */
+.my-accordion .mat-expansion-panel-header {
+  --mat-expansion-header-indicator-color: #fff;
+}

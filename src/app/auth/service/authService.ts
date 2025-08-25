@@ -12,14 +12,17 @@ export class authService {
   }
 
   login(username: string, password: string): Observable<boolean> {
-    return this.http.post(this.baseURL + '/auth/login', { username, password }, { observe: 'response' })
+    return this.http.post<{ accessToken: string; refreshToken: string }>(this.baseURL + '/auth/login', { username, password }, { observe: 'response' })
       .pipe(
         map(response => {
-          const accessToken = response.headers.get('accessToken');
-          const refreshToken = response.headers.get('refreshToken');
+/*          const accessToken = response.headers.get('accessToken');
+          const refreshToken = response.headers.get('refreshToken');*/
+          const accessToken = response.body?.accessToken;
+          const refreshToken = response.body?.refreshToken;
           if (accessToken && refreshToken) {
             sessionStorage.setItem('jwt', accessToken);
             sessionStorage.setItem('refresh', refreshToken);
+            console.log(accessToken);
             return true;
           }
           return false;

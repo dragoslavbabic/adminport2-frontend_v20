@@ -28,10 +28,10 @@ export class KorisniciService {
     );
   }
 
-  // RANDOM PASSWORD
+/*  // RANDOM PASSWORD
   getRandomPass(): Observable<{ pass: string }> {
     return this.http.get<{ pass: string }>(`${this.baseURL}/getRandomPass`);
-  }
+  }*/
 
   sshAccountAction(username: string, action: string): Observable<any> {
     // Dodaj encodeURIComponent radi sigurnosti!

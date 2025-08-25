@@ -14,7 +14,7 @@ mat-sidenav {
   width: 230px;
   min-width: 180px;
   max-width: 280px;
-  background: #213959;
+  background: #204d74;
 }
 
 mat-sidenav-content {
@@ -29,5 +29,5 @@ app-top-bar {
   top: 0;
   z-index: 50;
   box-shadow: 0 2px 8px #0002;
-  padding: 0 16px;
+  padding: 0;
 }

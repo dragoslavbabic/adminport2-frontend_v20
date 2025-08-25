@@ -53,7 +53,27 @@ button.mat-mdc-icon-button, .mat-mdc-icon-button {
   --mdc-switch-unselected-focus-handle-color: #2196f3;
 }
 
+::ng-deep .mat-expansion-indicator svg {
+  color: white !important;
+  fill: white !important;
+}
 
+::ng-deep .mat-expansion-indicator::after {
+  color: white !important;
+}
 
+::ng-deep .mat-expansion-indicator > svg {
+  stroke: white !important;
+  fill: white !important;
+}
+
+::ng-deep .mat-expansion-indicator::after {
+  color: #2196f3;
+}
+
+/* globalno za celu aplikaciju */
+/*:root {
+  --mat-expansion-header-indicator-color: #fff;
+}*/
 
 
