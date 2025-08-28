@@ -1,9 +1,12 @@
+/* Koren stranice */
 .dashboard-fixed-root {
   position: relative;
   height: 100vh;
   min-height: 700px;
-  overflow: hidden;
+  overflow: visible;         /* ne 'hidden' – sticky ume da strada */
   background: #fcfcfc;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard-fixed-content {
@@ -31,41 +34,21 @@
   margin-bottom: 0;
 }
 
-.dashboard-table-scroll {
-  flex: 1 1 0;
-  min-height: 0;
-  max-height: calc(100vh - 104px); /* prilagodi prema visini top bar-a */
-  overflow-y: auto;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px #0001;
-  padding-bottom: 2px; /* za vizuelni razmak na dnu */
-}
-
+/* >>> Jedini skroler na stranici za tabelu <<< */
 .dashboard-table-viewport {
   flex: 1 1 0;
-  min-height: 0;
-  /* Smanji ovu vrednost ako imaš gornji padding! */
-  max-height: calc(100vh - 80px); /* prilagodi prema visini top bar-a/paddinga */
-  overflow-y: auto;
+  min-height: 0;             /* omogućava pravilno računanje visine */
+  overflow-y: auto;          /* skroluje se samo ovo */
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 10px #0001;
-  padding-bottom: 2px;
+  padding-bottom: 2px;       /* da poslednji red ne nalegne na ivicu */
 }
 
-table.mat-table {
++.mat-mdc-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-}
-
-tr.mat-header-row {
-  position: sticky;
-  top: 0;
-  z-index: 4;
-  background: #f8fbff !important;
-  box-shadow: 0 2px 4px #0001;
 }
 
 @media (min-width: 800px) {
@@ -82,7 +65,7 @@ tr.mat-header-row {
   position: fixed;
   top: 100px;
   right: 0;
-  width: 40vw;
+  width: 60vw;
   max-width: 98vw;
   height: 73vh;
   background: #f8fbff;
@@ -113,4 +96,62 @@ tr.mat-header-row {
   .dashboard-fixed-content {
     padding-right: 0;
   }
+}
+
+.dashboard-fixed-root {
+  height: 100vh;              /* ceo ekran */
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-fixed-content {
+  flex: 1;                    /* popuni sve osim eventualnog globalnog headera */
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-top-bar {
+  flex-shrink: 0;              /* da ne guta prostor */
+  padding: 8px;
+  background: #f8f8f8;
+}
+
+/*.dashboard-table-viewport {
+  flex: 1;                     !* zauzmi sav ostatak prostora *!
+  overflow-y: auto;            !* skroluj samo tabelu *!
+  background: #fff;
+  border-radius: 8px;
+}*/
+
+/* Sticky ide na pojedinačne header ćelije (MDC klasa) */
+th.mat-mdc-header-cell {
+  position: sticky !important;
+  top: 0;
+  z-index: 5;
+  background: #f8fbff;       /* da ne “proviri” sadržaj ispod */
+  box-shadow: 0 2px 4px #0001; /* opcionalno, isti efekat kao ranije */
+}
+
+
+
+
+/* Sadržaj ispod globalnog headera (ako postoji) */
+.dashboard-fixed-content {
+
+}
+
+/* Tvoja traka sa pretragom/generatorom */
+.dashboard-top-bar {
+  flex-shrink: 0;
+  padding: 8px;
+  background: #f8f8f8;
+}
+
+
+
+/* (Ako koristiš mat-card oko tabele) */
+.mat-mdc-card,
+.mat-mdc-card-content {
+  padding: 0;
+  overflow: visible;
 }

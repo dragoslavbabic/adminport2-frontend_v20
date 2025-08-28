@@ -23,10 +23,13 @@ $card-padding: 16px;
   font-size: 1rem;
   font-weight: bold;
   height: 40px;
-  color:white;
-  display: flex;
+  color: white;
   padding-left: 0;
   padding-right: 0;
+  display: grid;
+  grid-template-columns: auto 1fr; /* Leva auto, desna puni ostatak */
+  gap: 20px;
+  align-items: start;
 }
 
 .top-bar img {
@@ -34,4 +37,29 @@ $card-padding: 16px;
   max-height: 200%;
   object-fit: contain; /* ili cover */
   display: block;
+}
+
+.logged-in {
+  color: $brand-primary;
+}
+
+/* leve/desne kolone (nije obavezno, ali zgodno za dodatne stilove) */
+.top-left-col  {
+  /*
+  display: grid;
+  */
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.top-right-col {
+  position: relative;
+}
+
+/* neka desna kartica bude “lepljiva” da ostaje u vidu pri skrolu */
+.top-right-col .wikiCards {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 16px;
 }

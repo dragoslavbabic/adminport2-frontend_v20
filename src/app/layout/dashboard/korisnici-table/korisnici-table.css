@@ -2,18 +2,51 @@ table{
   width: 100%;
   font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif !important;
   border-radius: 8px;
-  overflow: hidden;
 }
 
+.table-overlay {
+  display: flex;
+  align-items: center;   /* vertikalno centriranje */
+  justify-content: center; /* horizontalno centriranje */
+  z-index: 20;
+  background: rgba(255,255,255,0.8); /* poluprovidno belo, ili po želji */
+  pointer-events: none;  /* da ne smeta klikovima na tabelu kad je poruka */
+  margin-top: 22px;
+}
+
+/* Ako imaš interni wrapper oko tabele, on NE skroluje */
 .table-scroll-container {
-  max-height: 500px; /* ili koliko treba */
-  overflow-y: auto;
-  background: #fff;
+  height: 100%;
   border-radius: 8px;
+  background: #fff;
 }
 
 .mat-mdc-cell {
   font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif !important;
+}
+
+/* opcionalno, ako želiš da osiguraš pozadinu i stacking */
+tr.mat-mdc-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: #fff;
+}
+
+/* MAT TABLE (MDC) */
+th.mat-mdc-header-cell {
+  position: sticky;
+  top: 0;
+  z-index: 5;         /* iznad redova */
+  background: #fff;   /* obavezno, da ne „proviri“ sadržaj */
+}
+
+/* Umesto thead th, zalepi MDC header ćelije */
+th.mat-mdc-header-cell {
+  position: sticky;
+  top: 0;
+  background: #fff;   /* da ne “proviri” sadržaj ispod */
+  z-index: 5;         /* iznad redova i sadržaja */
 }
 
 /* Ovo važi za celu kolonu (header + ćelije) */
@@ -115,16 +148,7 @@ tr.mat-row:hover {
   font-weight: bold;
 }
 
-.table-overlay {
-  display: flex;
-  align-items: center;   /* vertikalno centriranje */
-  justify-content: center; /* horizontalno centriranje */
-  z-index: 20;
-  background: rgba(255,255,255,0.8); /* poluprovidno belo, ili po želji */
-  pointer-events: none;  /* da ne smeta klikovima na tabelu kad je poruka */
-  margin-top: 22px;
 
-}
 
 .table-no-data-msg {
   color: #b00;
@@ -136,6 +160,7 @@ tr.mat-row:hover {
   border-radius: 7px;
   margin-top: 22px;
 }
+
 
 
 

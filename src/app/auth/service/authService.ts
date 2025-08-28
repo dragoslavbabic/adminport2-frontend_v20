@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable, of, map, catchError, tap} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {UserInfo, AuthResponse} from '../models/auth.types';
 
 @Injectable({ providedIn: 'root' })
 export class authService {
@@ -12,16 +13,22 @@ export class authService {
   }
 
   login(username: string, password: string): Observable<boolean> {
-    return this.http.post<{ accessToken: string; refreshToken: string }>(this.baseURL + '/auth/login', { username, password }, { observe: 'response' })
+    return this.http.post<AuthResponse>(this.baseURL + '/auth/login', { username, password }, { observe: 'response' })
       .pipe(
         map(response => {
 /*          const accessToken = response.headers.get('accessToken');
           const refreshToken = response.headers.get('refreshToken');*/
           const accessToken = response.body?.accessToken;
           const refreshToken = response.body?.refreshToken;
+          const username = response.body?.user?.username ?? '';
+          const fullName = response.body?.user?.fullName ?? '';
+          console.log(username, fullName);
           if (accessToken && refreshToken) {
             sessionStorage.setItem('jwt', accessToken);
             sessionStorage.setItem('refresh', refreshToken);
+            sessionStorage.setItem('user', username);
+            sessionStorage.setItem('fullName', fullName);
+            window.dispatchEvent(new Event('user-updated')); // obavesti top-bar da osveži ime
             console.log(accessToken);
             return true;
           }

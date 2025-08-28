@@ -1,3 +1,9 @@
 <div class="top-bar d-flex align-items-center justify-content-center">
-  <a>CITUNS ADMINPORT II</a>
+  <div class="top-right-col">
+  <a>Adminport II</a>
+  </div>
+  <div class="top-left-col">  @if (fullName(); as name) { <span class="logged-in">{{ name }}</span> }
+  @else { <span>Prijavite se</span> }
+  </div>
 </div>
+
