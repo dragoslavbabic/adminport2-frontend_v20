@@ -11,14 +11,14 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
 import {UserDTO} from './models/postgres-user.model';
-import { trigger, transition, style, animate } from '@angular/animations';
+//import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css'],
-  animations: [
+ /* animations: [
     trigger('slideInRight', [
       // kada se panel pojavi
       transition(':enter', [
@@ -34,7 +34,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
         )
       ])
     ])
-  ],
+  ],*/
   imports: [
     KorisniciSearch,
     PasswordGenerator,
