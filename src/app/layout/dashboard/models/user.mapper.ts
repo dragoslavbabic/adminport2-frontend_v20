@@ -23,8 +23,9 @@ export function mapApiUser(api: any): User {
     blocked: !!ldap?.ldapShadowExpire && ldap.ldapShadowExpire > 0,
     isActive: !!ldap?.isActive,
     studRegUsername: ldap?.studregUserName,
+    pgInfo: ldap?.ldapPgInfo,
 
     ldap,
-    postgres,
+    //postgres,
   };
 }

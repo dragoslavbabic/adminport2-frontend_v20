@@ -1,5 +1,5 @@
 import {Component, effect, EventEmitter, Input, input, Output, Signal, signal, ViewContainerRef} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, isFormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import { PostgresUserService } from '../../../services/postgres-user.service';
 import { MatInput} from '@angular/material/input';
 import {MatButton,} from '@angular/material/button';
@@ -35,6 +35,7 @@ export class PostgresCard {
   lastname = input<string | undefined>(undefined);
   username = input<string | undefined>(undefined);
   fullname = input<string | undefined>(undefined);
+  info = input<string | undefined>(undefined);
   baseUser = input<User | null>(null);
   institucije = input<PostgresInstitucija[]>([]);
   statusi = input<PostgresStatus[]>([]);
@@ -58,6 +59,7 @@ export class PostgresCard {
         this.form().disable({ emitEvent: false });
       }
     });
+
   }
 
   /** Helper: vrati praznu formu */
@@ -80,7 +82,9 @@ export class PostgresCard {
   /** Helper: postavi vrednosti u formu na osnovu inputa */
   private patchFormData() {
     const user = this.pgUser();
-    //console.log('ima li nesto za formu: ' + JSON.stringify(user));
+    //console.log('USER za formu: ' + user);
+    console.log('ima li nesto za formu: ' + JSON.stringify(user));
+    console.log('Ima li INFO: ' + this.info);
     //console.log('user.status:', user?.status, typeof user?.status);
 
     if (user) {
@@ -100,7 +104,7 @@ export class PostgresCard {
       // Novi korisnik: popuni iz LDAP (ili ostavi prazno)
       this.form().patchValue({
         id: null,
-        username: this.username() ?? '',
+        username: (this.username() ?? '').toLowerCase(),   // 👈 pretvori u lowercase
         ime: this.fullname() ?? '',
         prezime: this.lastname() ?? '',
         adresa: '',
@@ -113,6 +117,46 @@ export class PostgresCard {
     }
   }
 
+ /* /!** Helper: pripremi vrednosti za formu *!/
+  private buildFormValue() {
+    const user = this.pgUser();
+
+    if (user) {
+      return {
+        id: user.id ?? null,
+        username: user.username ?? '',
+        ime: user.ime ?? '',
+        prezime: user.prezime ?? '',
+        adresa: user.adresa ?? '',
+        telefon: user.telefon ?? '',
+        indeks: user.indeks ?? null,
+        institucijaId: user.institucija?.id ?? null,
+        statusId: user.status?.id ?? null,
+        komentar: user.komentar ?? '',
+      };
+    } else {
+      return {
+        id: null,
+        username: this.username() ?? '',
+        ime: this.fullname() ?? '',
+        prezime: this.lastname() ?? '',
+        adresa: '',
+        telefon: '',
+        indeks: null,
+        institucijaId: 8,   // tvoj default
+        statusId: 2,        // tvoj default
+        komentar: '',
+      };
+    }
+  }
+
+  /!** Helper: resetuj celu formu na nove vrednosti *!/
+  private resetFormData() {
+    this.form().reset(this.buildFormValue(), { emitEvent: false });
+    this.form().markAsPristine();
+    this.form().markAsUntouched();
+  }
+*/
   // Submit
   submit() {
     const group = this.form();
@@ -164,8 +208,9 @@ export class PostgresCard {
   cancelEdit() {
     this.editMode.set(false);
     this.form().disable();
-    this.patchFormData(); // Resetuj na vrednosti iz inputa
+    //this.patchFormData(); // Resetuj na vrednosti iz inputa
   }
 
   compareById = (a: any, b: any) => a && b && a.id === b.id;
+  protected readonly isFormControl = isFormControl;
 }

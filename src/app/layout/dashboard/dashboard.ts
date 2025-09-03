@@ -11,30 +11,13 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
 import {UserDTO} from './models/postgres-user.model';
-//import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css'],
- /* animations: [
-    trigger('slideInRight', [
-      // kada se panel pojavi
-      transition(':enter', [
-        style({ transform: 'translateX(100%)', opacity: 0 }),
-        animate('240ms cubic-bezier(.2,0,.2,1)',
-          style({ transform: 'translateX(0)', opacity: 1 })
-        )
-      ]),
-      // kada se panel zatvara/uklanja
-      transition(':leave', [
-        animate('200ms cubic-bezier(.4,0,1,1)',
-          style({ transform: 'translateX(100%)', opacity: 0 })
-        )
-      ])
-    ])
-  ],*/
+
   imports: [
     KorisniciSearch,
     PasswordGenerator,
@@ -43,7 +26,6 @@ import {UserDTO} from './models/postgres-user.model';
     MatSidenavModule,
     MatIconModule,
     MatIconButton,
-    //KorisniciDetails
   ]
 })
 export class Dashboard implements AfterViewInit{
@@ -76,10 +58,21 @@ export class Dashboard implements AfterViewInit{
     });
   }
 
-  onUserRowClick(user: User) {
+/*  onUserRowClick(user: User) {
     this.selectedUser.set(user);
     // Dodaj klasu kad je panel otvoren
       }
+  onDetailsClose() {
+    this.selectedUser.set(undefined);
+    this.renderer.removeClass(this.dashboardRoot.nativeElement, 'panel-open');
+  }*/
+
+  onUserRowClick(user: User) {
+    this.selectedUser.set(user);
+    console.log('Da vidimo sta saljemo dalje: ' + JSON.stringify(user));
+    this.renderer.addClass(this.dashboardRoot.nativeElement, 'panel-open');
+  }
+
   onDetailsClose() {
     this.selectedUser.set(undefined);
     this.renderer.removeClass(this.dashboardRoot.nativeElement, 'panel-open');

@@ -18,4 +18,5 @@ export interface LdapUser {
   ldapStatus: string;
   ldapIndeks: string;
   isActive: boolean;
+  ldapPgInfo: string;
 }

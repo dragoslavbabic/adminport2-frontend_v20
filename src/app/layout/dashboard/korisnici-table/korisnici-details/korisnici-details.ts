@@ -51,9 +51,11 @@ export class KorisniciDetails {
       const currentUser = this._user();
       if (!currentUser) return;
 
+      // 👇 resetuj state pre novog upita
+      this.pgUser.set(null);
+
       this.pgService.getUser(currentUser.username).subscribe(u => this.pgUser.set(Array.isArray(u) ? u[0] : u ?? null));
       //console.log('korisnik u details: ' + JSON.stringify(this.pgUser, null, 2));
-
       this.pgInstitucijaService.getInstitucije().subscribe(i => this.institucije.set(i));
       this.pgStatusService.getStatusi().subscribe(s => this.statusi.set(s));
     });
@@ -61,6 +63,4 @@ export class KorisniciDetails {
 
   protected readonly mapApiLdapUser = mapApiLdapUser;
   protected readonly mapApiPostgresUser = mapApiPostgresUser;
-
-
 }

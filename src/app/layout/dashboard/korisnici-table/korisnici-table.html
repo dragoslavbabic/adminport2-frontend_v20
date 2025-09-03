@@ -1,10 +1,15 @@
-<div class="table-scroll-container">
-<mat-card>  <table mat-table [dataSource]="users()" class="mat-elevation-z3 custom-table">
+<!--
+<div class="table-area">
+-->
+  <mat-card class="table-wrapper">
+  <div class="table-scroll-container">
+
+  <table mat-table [dataSource]="pagedUsers" class="mat-elevation-z3 custom-table">
 
     <!-- Redni broj -->
     <ng-container matColumnDef="num">
       <th mat-header-cell *matHeaderCellDef> Num. </th>
-      <td mat-cell *matCellDef="let user; let i = index"> {{ i + 1 }} </td>
+      <td mat-cell *matCellDef="let pagedUsers; let i = index"> {{ i + 1 + (pageIndex * pageSize)}} </td>
     </ng-container>
 
     <!-- Korisnik (ostaje sve kao kod tebe)... -->
@@ -124,8 +129,20 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let user; columns: displayedColumns;" (click)="onRowClick(user)"></tr>
   </table>
-</mat-card>
+
 </div>
+  <!-- PAGINATOR -->
+  @if (users().length > 30) {
+  <mat-paginator
+    [length]="users().length"
+    [pageIndex]="pageIndex"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions" showFirstLastButtons
+    (page)="onPage($event)">
+  </mat-paginator>
+  }
+  </mat-card>
+<!--</div>-->
 
 <!-- OVDE IDE SPINNER ili PORUKA -->
 @if (searchInProgress()) {

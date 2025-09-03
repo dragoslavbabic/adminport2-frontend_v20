@@ -24,10 +24,7 @@
           <button mat-icon-button matTooltip="Blokiraj/odblokiraj">
             <mat-icon>block</mat-icon>
           </button>
-          <button mat-icon-button matTooltip="Obriši korisnika">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
+          </div>
       </div>
     </div>
     <div class="card-header">
@@ -50,10 +47,8 @@
             Postgres
           </button>
         </li>
-        <!-- Dodaj još kartica po potrebi -->
       </ul>
   </div>
-    <!-- Sadržaj kartica -->
     <div class="card-body tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="ldap" role="tabpanel" aria-labelledby="ldap-tab">
         <ldap-card
@@ -74,6 +69,7 @@
                        [fullname]="user.ldap?.ldapFullName"
                        [lastname]="user.ldap?.ldapLastName"
                        [username]="user.ldap?.ldapUsername"
+                       [info]="user.ldap?.ldapPgInfo"
                        [institucije]="institucije()"
                        [statusi]="statusi()"
                        (userSaved)="onUserSaved($event)">
@@ -83,6 +79,9 @@
       </div>
     </div>
   </div>
+
+
+
   <!--  <div class="user-header">
     <div class="user-avatar">
       {{ user.fullName! | initials }} &lt;!&ndash; Pipe za inicijale ili prvi karakteri &ndash;&gt;
@@ -112,30 +111,32 @@
     </div>
   </div>-->
 
-  <!--<mat-tab-group>
+ <!-- <mat-tab-group>
     <mat-tab label="LDAP podaci">
       <ldap-card
         [user]="user.ldap"
-        [institution]="user.postgres?.rawPgInstitucija || undefined"></ldap-card>
+        [institution]="user.ldap?.ldapInstitucija || undefined"></ldap-card>
     </mat-tab>
     <mat-tab label="Logovi">
-      <log-card [user]="user"></log-card>
+      <log-card [user]="user.username"></log-card>
     </mat-tab>
     <mat-tab label="Postgres">
-      <postgres-card [baseUser]="user"
-                     [viewContainerRef]="viewContainerRef"
-                     [pgUser]="pgUser()"
-                     [fullname]="user.ldap?.ldapFullName"
-                     [lastname]="user.ldap?.ldapLastName"
-                     [username]="user.ldap?.ldapUsername"
-                     [institucije]="institucije()"
-                     [statusi]="statusi()"
-                    (userSaved)="onUserSaved($event)">
-      >
-
-      </postgres-card>
+      <ng-template matTabContent>
+        <postgres-card
+          [baseUser]="user"
+          [viewContainerRef]="viewContainerRef"
+          [pgUser]="pgUser"
+          [fullname]="user.ldap?.ldapFullName"
+          [lastname]="user.ldap?.ldapLastName"
+          [username]="user.ldap?.ldapUsername"
+          [institucije]="institucije()"
+          [statusi]="statusi()"
+          (userSaved)="onUserSaved($event)">
+        </postgres-card>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>-->
+
 }
 
 @else {

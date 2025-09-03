@@ -12,7 +12,13 @@
 
       @if (!editMode()) {
         <span class="btn-izmeni"><button type="button" class="btn btn-success btn-izmeni"(click)="startEdit()">
-          <!--<mat-icon>edit</mat-icon>--> Izmeni
+          <!--<mat-icon>edit</mat-icon>-->
+          @if ( pgUser()?.id ) {
+          <span>Izmeni</span>
+          } @else {
+            <span>Kreiraj korisnika</span>
+            <span> ( {{ info() }} )</span>
+          }
         </button></span>
       }
       @else {
@@ -32,7 +38,7 @@
       <div>
         <div class="form-col">
           <label>Username:</label>
-          <input matInput formControlName="username" readonly/>
+          <input matInput formControlName="username" readonly />
         </div>
         <div class="form-col">
           <label>Ime:</label>

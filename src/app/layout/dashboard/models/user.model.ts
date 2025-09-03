@@ -14,6 +14,7 @@ export interface User {
   shadowExpire?: number;
   isActive?: boolean;
   studRegUsername?: string | null;
+  pgInfo?: string | null;
 
   // Za kartice:
   ldap?: LdapUser;

@@ -13,7 +13,7 @@ import {MatIcon} from '@angular/material/icon';
 import {CdkCopyToClipboard} from '@angular/cdk/clipboard';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatCard} from '@angular/material/card';
-
+import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 type UIAction = 'block_unblock' | 'extend';
 type BackendAction = 'block' | 'unblock' | 'extend';
 
@@ -23,7 +23,7 @@ type BackendAction = 'block' | 'unblock' | 'extend';
   templateUrl: './korisnici-table.html',
   styleUrls: ['./korisnici-table.css'],
   encapsulation: ViewEncapsulation.None,
-  imports: [MatTableModule, BadgeColorPipe, StatusBadgePipe, UserStatusPipe, UserWarningPipe, NgClass, DatePipe, MatIconButton, MatTooltip, MatIcon, AltUidFilterPipe, MatProgressSpinner, StudregKorisnikClassPipe, MatCard,]
+  imports: [MatTableModule, BadgeColorPipe, StatusBadgePipe, UserStatusPipe, UserWarningPipe, NgClass, DatePipe, MatIconButton, MatTooltip, MatIcon, AltUidFilterPipe, MatProgressSpinner, StudregKorisnikClassPipe, MatCard,MatPaginatorModule, ]
 })
 
 export class KorisniciTable {
@@ -32,9 +32,20 @@ export class KorisniciTable {
   searchInProgress = input<boolean>(false);
   @Output() rowClicked = new EventEmitter<User>();
 
+  // Pagination state
+  pageSize = 30;
+  pageIndex = 0;
+  pageSizeOptions = [10, 20, 30, 50, 100];
 
+  get pagedUsers(): User[] {
+    const start = this.pageIndex * this.pageSize;
+    return this.users().slice(start, start + this.pageSize);
+  }
 
-
+  onPage(ev: PageEvent) {
+    this.pageIndex = ev.pageIndex;
+    this.pageSize = ev.pageSize;
+  }
 
   actionLoading: { [username: string]: boolean } = {};
   constructor(private korisniciService: KorisniciService) {}

@@ -19,5 +19,6 @@ export function mapApiLdapUser(api: any): LdapUser {
     ldapIndeks: api.pgIndeks ?? '',
     ldapInstitucija: api.pgInstitucija ?? '',
     ldapStatus: api.pgStatus ?? '',
+    ldapPgInfo: api.pgInfo ?? '',
   };
 }

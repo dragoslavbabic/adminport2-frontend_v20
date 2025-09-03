@@ -4,6 +4,7 @@
       <korisnici-search (search)="onSearch($event)"></korisnici-search>
       <password-generator #pwgen></password-generator>
     </div>
+
     <div class="dashboard-table-viewport">
       <korisnici-table
         [users]="users()"
@@ -14,15 +15,17 @@
     </div>
   </div>
 
-  @if (selectedUser()) {
-    <div class="fixed-details-panel">
-      <button mat-icon-button (click)="onDetailsClose()" class="close-btn" style="float:right;">
-        <mat-icon>close</mat-icon>
-      </button>
-      <div style="clear:both"></div>
-      <korisnici-details [user]="selectedUser()"
-                          (userSaved)="onPostgresUserSaved($event)"></korisnici-details>
-    </div>
-    <div class="panel-overlay" (click)="onDetailsClose()"></div>
-  }
+  <!-- Backdrop -->
+  <div class="detail-backdrop" (click)="onDetailsClose()"></div>
+
+  <!-- Panel -->
+  <div class="fixed-detail-panel">
+    <button mat-icon-button (click)="onDetailsClose()" class="close-btn" style="float:right;">
+      <mat-icon>close</mat-icon>
+    </button>
+    <korisnici-details
+      [user]="selectedUser()"
+      (close)="onDetailsClose()">
+    </korisnici-details>
+  </div>
 </div>
