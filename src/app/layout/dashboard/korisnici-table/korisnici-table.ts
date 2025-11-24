@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ViewEncapsulation, input} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ViewEncapsulation, input, effect} from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { User } from '../models/user.model';
 import {DatePipe, JsonPipe, NgClass, NgIf} from '@angular/common';
@@ -48,7 +48,13 @@ export class KorisniciTable {
   }
 
   actionLoading: { [username: string]: boolean } = {};
-  constructor(private korisniciService: KorisniciService) {}
+  constructor(private korisniciService: KorisniciService) {
+    // RESET PAGE INDEX KADA SE PROMENI LISTA KORISNIKA
+    effect(() => {
+      this.users();          // 👈 kada se promeni lista korisnika...
+      this.pageIndex = 0;    // ...vrati se na prvu stranu
+    });
+  }
 
   displayedColumns = [
     'num', 'username', 'fullName', 'activeTo', 'index', 'institution', 'status','blocked_date'

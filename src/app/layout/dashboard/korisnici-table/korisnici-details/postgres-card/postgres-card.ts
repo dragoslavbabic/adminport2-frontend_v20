@@ -105,7 +105,8 @@ export class PostgresCard {
       this.form().patchValue({
         id: null,
         username: (this.username() ?? '').toLowerCase(),   // 👈 pretvori u lowercase
-        ime: this.fullname() ?? '',
+        //ime: this.fullname() ?? '',
+        ime: (this.fullname() ?? '').split(' ')[0],
         prezime: this.lastname() ?? '',
         adresa: '',
         telefon: '',
