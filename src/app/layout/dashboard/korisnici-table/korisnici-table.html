@@ -117,8 +117,8 @@
     <th mat-header-cell *matHeaderCellDef> Blokiran od: </th>
     <td mat-cell *matCellDef="let user">
       <div class="cell-flex">
-        @if(user.shadowExpire > 1) {
-        <span  class="badge myspan">
+        @if(user.shadowExpire > 1 ) {
+        <span  class="my-badge myspan badge-border-orange">
         {{user.shadowExpire * 86400 * 1000 | date: 'dd. MMM yyyy'}}
         </span>
         }

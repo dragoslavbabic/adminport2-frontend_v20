@@ -1,7 +1,7 @@
 // password.service.ts
 import { Injectable } from '@angular/core';
 
-const CONSONANTS = 'bdfghjklmnpstvxz';
+const CONSONANTS = 'bcdfghjkmnpstvxz1';
 const VOWELS     = 'aeio';
 
 @Injectable({ providedIn: 'root' })
